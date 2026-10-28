@@ -50,6 +50,11 @@ npm run build
 
 Only if you work on a task tagged `python`. See [worker/README.md](worker/README.md).
 
+## Run the database locally
+
+The tables, access rules and their tests are SQL files in `supabase/`. You can run the full,
+open-source Supabase on your laptop with Docker: see [docs/DATABASE.md](docs/DATABASE.md).
+
 ## Environment variables
 
 Every name is listed in [`.env.example`](.env.example), grouped by service. `.env` itself is
