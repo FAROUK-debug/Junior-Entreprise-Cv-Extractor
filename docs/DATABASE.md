@@ -19,7 +19,33 @@ Supabase dashboard: a change is a new migration file, reviewed in a PR like any 
 - **`companies`** is one row per company login.
 
 Every table has **row-level security (RLS)** switched on. That means the database itself decides
-who can read which row, so a bug in a page cannot leak data. The rules are in S1-17's migration.
+who can read which row, so a bug in a page cannot leak data.
+
+## Who can see and change what
+
+The role comes from `app_metadata.role` in the login token, which only the server can set
+(never `user_metadata`: users can edit that themselves).
+
+| Who | Can read | Can change from the browser |
+|---|---|---|
+| **Logged out** | nothing | nothing |
+| **Candidate** | their own profile, draft and jobs | their profile's `looking_for` and `hidden`; their draft's `data` (the review form) |
+| **Company** (active) | approved, non-hidden profiles; their own company row | their company's name, sector, description, website, logo |
+| **Company** (disabled, or no company row) | their own company row only, no profiles | same as above |
+| **Admin** | everything | nothing from the browser: admin actions go through server code |
+| **Server** (service role key) | everything | everything. That's why that key never leaves the server |
+
+Everything else goes through server code that checks first: approving (the schema is
+validated), uploading (type, size, daily limit), deleting an account, creating companies.
+
+It's enforced in two layers (`supabase/migrations/*_access_rules.sql`):
+1. **Permissions** say which *columns* a browser role may change at all. RLS alone can't stop a
+   candidate from setting their own `status` to `approved`, or a disabled company from enabling itself.
+2. **RLS policies** say which *rows* each person sees.
+
+`supabase/tests/03_rls.test.sql` logs in as each role and checks every line of this table.
+**A new table must get its policies and tests in the same PR**: a test fails if any table in
+`public` has RLS off.
 
 Every table is linked to the user's account (`auth.users`, Supabase's own table) with
 `on delete cascade`: **deleting an account deletes every row about that person**, in every table.
