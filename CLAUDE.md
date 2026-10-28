@@ -14,3 +14,4 @@ Read the README first. These rules come from the project design; a PR that break
 8. **The profile schema lives in `worker/cv_worker/schema.py`.** The web side is generated from it; never edit the generated file.
 9. **Keep it boring.** Members must understand the code. No new library without saying why in the PR.
 10. **Next.js 16:** "middleware" is now called **proxy** (`proxy.ts`). Check `node_modules/next/dist/docs/` before trusting a tutorial.
+11. **Reading the logged-in user** (`getCurrentUser()` from `lib/auth.ts`) happens in a component inside `<Suspense>`, never at the top of a page or layout: Cache Components are on, and the build fails otherwise. See `app/(public)/whoami/page.tsx`.
