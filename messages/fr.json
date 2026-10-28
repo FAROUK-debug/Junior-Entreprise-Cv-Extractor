@@ -4,5 +4,11 @@
     "candidate": "Espace candidat — inscription, dépôt et vérification du CV ici (S1-26 → S1-32)",
     "company": "Espace entreprise — CV, recherche et scan QR ici (Sprint 2)",
     "admin": "Tableau de bord admin — entreprises et statistiques ici (Sprint 2)"
+  },
+  "whoami": {
+    "loggedInAs": "Connecté en tant que",
+    "noRole": "aucun rôle",
+    "notLoggedIn": "Non connecté",
+    "loading": "Vérification…"
   }
 }
