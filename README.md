@@ -46,6 +46,22 @@ npm run lint
 npm run build
 ```
 
+## Talking to the database from the web app
+
+Always go through these files, never create a Supabase client yourself:
+
+| You are writing… | Use | It acts as |
+|---|---|---|
+| A component with `"use client"` | `createClient()` from `lib/supabase/client.ts` | the logged-in user (database rules apply) |
+| A server component, server function or API route | `await createClient()` from `lib/supabase/server.ts` | the logged-in user (database rules apply) |
+| Server code that must skip the rules (approval, upload, admin actions) | `createAdminClient()` from `lib/supabase/admin.ts` | **the service role: sees and changes everything**. Check who is asking first |
+| "Who is logged in, and as what?" | `await getCurrentUser()` from `lib/auth.ts` | returns `{ id, email, role }` or `null` |
+
+- `lib/supabase/admin.ts` can't be imported by a `"use client"` file: the build fails on purpose.
+- A component that calls `getCurrentUser()` must sit inside `<Suspense>`, or the build fails.
+  See [`app/(public)/whoami/page.tsx`](app/(public)/whoami/page.tsx): open `/whoami` to see who you are logged in as.
+- `proxy.ts` (Next.js 16's name for middleware) keeps the login fresh on every page.
+
 ## Run the worker
 
 Only if you work on a task tagged `python`. See [worker/README.md](worker/README.md).
