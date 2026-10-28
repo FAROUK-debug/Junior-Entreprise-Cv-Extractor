@@ -31,3 +31,13 @@ jobs:
       - run: pip install -r requirements.txt
       - run: ruff check .
       - run: pytest
+
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.117.0
+      - run: supabase db start      # only Postgres, with every migration applied
+      - run: supabase test db       # tables, queue and access-rule tests
