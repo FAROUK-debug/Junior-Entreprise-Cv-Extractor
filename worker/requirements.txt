@@ -1,0 +1,4 @@
+# The worker's libraries. The AI tasks add theirs here (mistralai in S1-20, google-genai in S1-21,
+# supabase in S1-24), pinned to an exact version like these.
+ruff==0.17.3
+pytest==9.2.0
