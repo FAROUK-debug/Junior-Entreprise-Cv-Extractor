@@ -101,14 +101,18 @@ to read an approved profile row would also read any column on it, including an u
 | `started_at`, `finished_at` | When the worker started and finished it |
 | `created_at`, `updated_at` | As above. Jobs are handled oldest first |
 
-## The queue functions (for the worker only)
+## The server's functions (never the browser)
 
 | Function | What it does |
 |---|---|
 | `claim_next_job()` | Gives the worker the oldest job that may run now and marks it `processing`. Two workers asking at the same time get different jobs (`FOR UPDATE SKIP LOCKED`) |
 | `requeue_stuck_jobs()` | Run when the worker starts: jobs cut off by a crash go back to `queued`, or fail if they already had 3 attempts |
 
-Only the server (the service role key) can run them.
+| `approve_profile(user_id, data, draft_updated_at)` | Approval in one step (S1-32): deletes the draft, copies the checked data into `profiles`, sets `approved` and `approved_at`, queues an `embed` job. If the draft changed since the candidate reviewed it, it does nothing and returns `null`. Returns the `public_id` |
+
+Only the server (the service role key) can run them. For `approve_profile` that matters most: a
+candidate who could call it could approve any data, skipping the schema check
+(`supabase/tests/05_approve_profile.test.sql`).
 
 ## The temporary CV bucket: `uploads-tmp`
 

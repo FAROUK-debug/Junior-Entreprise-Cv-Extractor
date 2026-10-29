@@ -25,5 +25,16 @@
       "daily_limit": "You have reached today's limit of 5 uploads. Please try again tomorrow.",
       "upload_failed": "Your CV couldn't be saved. Please try again in a moment."
     }
+  },
+  "approved": {
+    "loading": "Loading your QR code…",
+    "unauthorized": "Please log in with your candidate account.",
+    "notApproved": "Your profile isn't approved yet. Review it first, then approve it.",
+    "toReview": "Review my profile",
+    "unavailable": "The QR code isn't available right now. Please try again later.",
+    "title": "Your profile is approved",
+    "explain": "Show this QR code to recruiters at the fair.",
+    "qrAlt": "QR code that opens your profile",
+    "download": "Download my QR code (PNG)"
   }
 }

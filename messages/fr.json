@@ -25,5 +25,16 @@
       "daily_limit": "Vous avez atteint la limite de 5 dépôts pour aujourd'hui. Réessayez demain.",
       "upload_failed": "Votre CV n'a pas pu être enregistré. Réessayez dans un instant."
     }
+  },
+  "approved": {
+    "loading": "Chargement de votre code QR…",
+    "unauthorized": "Connectez-vous avec votre compte candidat.",
+    "notApproved": "Votre profil n'est pas encore validé. Relisez-le, puis validez-le.",
+    "toReview": "Relire mon profil",
+    "unavailable": "Le code QR n'est pas disponible pour le moment. Réessayez plus tard.",
+    "title": "Votre profil est validé",
+    "explain": "Montrez ce code QR aux recruteurs pendant le salon.",
+    "qrAlt": "Code QR qui ouvre votre profil",
+    "download": "Télécharger mon code QR (PNG)"
   }
 }

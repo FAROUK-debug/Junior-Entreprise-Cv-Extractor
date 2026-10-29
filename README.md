@@ -66,6 +66,8 @@ npm run test:api               # in a second terminal
 |---|---|---|
 | `POST /api/cv/upload` | candidate, email confirmed | Form fields `file`, `consent=true`, `looking_for` (`pfe`, `internship`, `job`). Checks the real file type (PDF, JPG, PNG; a Word file gets "export it as PDF first"), 5 MB, and 5 uploads per 24 h. Returns `201 { jobId }`, or `{ error, message }` with the reason (texts in `messages/*.json` → `upload.errors`) |
 | `GET /api/cv/jobs/:id` | the job's owner | `{ status, position, error }`: position in the queue while queued, the message for the candidate when it failed. Anyone else gets 404 |
+| `POST /api/profile/approve` | candidate | Body `{ updated_at }`: the draft version the review form saved. Checks the draft against the schema plus name and email (otherwise `422 { fields }`), refuses a draft that changed since (`409`), then approves in one database step and queues the embedding. Returns `{ redirect: "/candidate/approved" }` |
+| page `/candidate/approved` | candidate | The QR code (800 px PNG, the profile URL with the random `public_id` only) and "Download my QR code (PNG)" |
 
 ## Talking to the database from the web app
 
