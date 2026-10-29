@@ -37,8 +37,9 @@ pytest
 | `cv_worker/__main__.py` | The loop: claim a job, run it, mark it done or failed (S1-24) |
 | `cv_worker/schema.py` | The profile schema, the one source of truth (S1-15) |
 | `cv_worker/prompts.py` | The extraction prompt (S1-19) |
-| `cv_worker/ai/` | One file per AI provider: `mistral.py`, `gemini.py`, `embed.py` |
+| `cv_worker/ai/` | The AI calls: `gemini.py` (extraction), `embed.py` (embeddings, S1-33), `errors.py` |
 | `cv_worker/extract.py` | File in, profile out. No database code here (S1-20) |
+| `cv_worker/extract_one.py` | `python -m cv_worker.extract_one path/to/cv.pdf`: real extraction on one file, prints the profile |
 | `tests/` | `pytest` tests |
 
 A new library goes in `requirements.txt` with an exact version (`name==1.2.3`), and the PR says why.
