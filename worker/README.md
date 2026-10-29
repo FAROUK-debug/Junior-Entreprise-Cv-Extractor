@@ -43,3 +43,11 @@ pytest
 | `tests/` | `pytest` tests |
 
 A new library goes in `requirements.txt` with an exact version (`name==1.2.3`), and the PR says why.
+
+## When Gemini is busy (S1-21)
+
+The free `gemini-3.5-flash` allows only 20 requests a day (docs/AI_LIMITS.md). When it answers 429,
+another HTTP error or times out, `extract_cv` asks `GEMINI_FALLBACK_MODEL` (`gemini-3.5-flash-lite`,
+its own quota) once. A bad file, a missing key or an answer that fails validation is not retried.
+`meta.model` says which model produced the profile and `meta.fallback_from` why the main one was skipped.
+If both fail, the candidate sees "We couldn't read your CV right now, please try again later".

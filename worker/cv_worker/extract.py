@@ -1,5 +1,6 @@
 """
 S1-20 · CV extraction pipeline: file → Gemini (structured profile) → pydantic validation.
+S1-21 · When the main model is busy, slow or out of quota, the fallback model is asked once.
 
 extract_cv never raises. It always returns either a validated profile or a
 "failed" result with an error code, a reason that contains no personal data
@@ -24,6 +25,8 @@ from cv_worker.prompts import PROMPT_VERSION
 from cv_worker.schema import AiProfile, CandidateProfile, LookingFor
 
 MAX_ISSUES_IN_REASON = 5
+# Errors where asking the other model can help (not a bad file, a missing key or a bad answer).
+FALLBACK_CODES = {"rate_limited", "provider_error", "timeout"}
 
 TRY_AGAIN = "We couldn't read your CV right now, please try again later"
 # What the candidate sees for each error code.
@@ -131,7 +134,15 @@ def extract_cv(
         return {**meta, "total_ms": round((time.perf_counter() - started) * 1000)}
 
     try:
-        answer = gemini.extract_profile(file_bytes, mime_type, today=today, client=client, timeout_ms=timeout_ms)
+        call = {"today": today, "client": client, "timeout_ms": timeout_ms}
+        try:
+            answer = gemini.extract_profile(file_bytes, mime_type, **call)
+        except ExtractionFailed as e:
+            fallback = gemini.fallback_model_name()
+            if e.code not in FALLBACK_CODES or not fallback or fallback == gemini.model_name():
+                raise
+            meta["fallback_from"] = e.code  # why the main model was not used
+            answer = gemini.extract_profile(file_bytes, mime_type, model=fallback, **call)
         meta.update(provider="gemini", model=answer.model, extract_ms=answer.duration_ms)
 
         try:

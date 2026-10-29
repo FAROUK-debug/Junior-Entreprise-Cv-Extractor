@@ -1,5 +1,5 @@
 """
-S1-20 · Gemini client: reads a CV file and returns profile JSON.
+S1-20 / S1-21 · Gemini client: reads a CV file and returns profile JSON.
 
 Gemini Flash sees PDFs and images directly, so there is no separate OCR step:
 one call sends the file with the S1-19 prompt and the S1-15 schema as
@@ -51,6 +51,14 @@ def model_name() -> str:
     # Google retires old versions for new keys, so change it here or in .env when that happens.
     return os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
 
+
+def fallback_model_name() -> str | None:
+    """
+    S1-21: the model to ask when the main one fails. Each Gemini model has its own free quota
+    (gemini-3.5-flash: 20 requests a day on 29 Oct), so Flash-Lite keeps working when Flash is used up.
+    Set GEMINI_FALLBACK_MODEL to an empty value to turn the fallback off.
+    """
+    return os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.5-flash-lite") or None
 
 
 def make_client(api_key: str | None = None) -> genai.Client:
