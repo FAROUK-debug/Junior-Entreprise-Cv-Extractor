@@ -94,7 +94,7 @@ to read an approved profile row would also read any column on it, including an u
 | `user_id` | Whose CV it is |
 | `kind` | `extract` (read a CV) or `embed` (compute a profile's embedding) |
 | `status` | `queued` → `processing` → `done` or `failed` |
-| `attempts` | How many times the worker has tried it. After 3, it fails |
+| `attempts` | How many times the worker has tried it. After 3 tries with a busy AI an extract job fails; an embed job gets 10 (it can wait, the profile is already visible) |
 | `error_message` | Shown to the candidate when it fails, so plain words only, never a technical error |
 | `file_path` | Where the uploaded file waits in the temporary storage bucket. The file is deleted when the job ends |
 | `run_after` | The job is not picked before this time. Used to wait after the AI says "too many requests" (429) |
