@@ -10,5 +10,20 @@
     "noRole": "no role",
     "notLoggedIn": "Not logged in",
     "loading": "Checking…"
+  },
+  "upload": {
+    "errors": {
+      "not_logged_in": "Please log in to upload your CV.",
+      "email_not_confirmed": "Please confirm your email address first: we sent you a link.",
+      "not_candidate": "Only candidate accounts can upload a CV.",
+      "no_consent": "Please accept the consent text before uploading.",
+      "no_looking_for": "Please choose what you are looking for: PFE, internship or job.",
+      "no_file": "Please choose a file to upload.",
+      "too_large": "This file is over 5 MB. Please upload a smaller file.",
+      "word_file": "This is a Word file. Please export it as PDF first, then upload the PDF.",
+      "bad_type": "This file type isn't supported. Please upload a PDF, JPG or PNG.",
+      "daily_limit": "You have reached today's limit of 5 uploads. Please try again tomorrow.",
+      "upload_failed": "Your CV couldn't be saved. Please try again in a moment."
+    }
   }
 }

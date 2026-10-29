@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "schema:gen": "json-schema-to-zod -i shared/profile.schema.json -o lib/profile/schema.gen.ts -n ProfileSchema -t CandidateProfile -m esm"
+    "schema:gen": "json-schema-to-zod -i shared/profile.schema.json -o lib/profile/schema.gen.ts -n ProfileSchema -t CandidateProfile -m esm",
+    "test": "tsx --test tests/unit/*.test.ts",
+    "test:api": "tsx --test --test-concurrency=1 tests/api/*.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -33,6 +35,7 @@
     "eslint-config-next": "16.4.3",
     "json-schema-to-zod": "^2.8.1",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

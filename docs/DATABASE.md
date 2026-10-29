@@ -110,6 +110,15 @@ to read an approved profile row would also read any column on it, including an u
 
 Only the server (the service role key) can run them.
 
+## The temporary CV bucket: `uploads-tmp`
+
+A private Supabase Storage bucket where an uploaded CV waits for the worker
+(`<user id>/<random>.pdf`). It has **no access policy on purpose**: the browser can't list, read
+or write anything in it, not even the file's owner. Only server code with the service role key
+reaches it: the upload API puts the file in, and the worker deletes it when the job ends,
+success or failure. Storage itself refuses files over 5 MB or of another type than PDF, JPG
+and PNG. Tests: `supabase/tests/04_uploads_bucket.test.sql`.
+
 ## Work on the database locally
 
 You need Docker and the [Supabase CLI](https://supabase.com/docs/guides/local-development).

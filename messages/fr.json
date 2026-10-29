@@ -10,5 +10,20 @@
     "noRole": "aucun rôle",
     "notLoggedIn": "Non connecté",
     "loading": "Vérification…"
+  },
+  "upload": {
+    "errors": {
+      "not_logged_in": "Connectez-vous pour déposer votre CV.",
+      "email_not_confirmed": "Confirmez d'abord votre adresse e-mail : nous vous avons envoyé un lien.",
+      "not_candidate": "Seuls les comptes candidats peuvent déposer un CV.",
+      "no_consent": "Veuillez accepter le texte de consentement avant de déposer votre CV.",
+      "no_looking_for": "Veuillez choisir ce que vous cherchez : PFE, stage ou emploi.",
+      "no_file": "Veuillez choisir un fichier.",
+      "too_large": "Ce fichier dépasse 5 Mo. Veuillez déposer un fichier plus léger.",
+      "word_file": "C'est un fichier Word. Exportez-le d'abord en PDF, puis déposez le PDF.",
+      "bad_type": "Ce type de fichier n'est pas accepté. Déposez un PDF, un JPG ou un PNG.",
+      "daily_limit": "Vous avez atteint la limite de 5 dépôts pour aujourd'hui. Réessayez demain.",
+      "upload_failed": "Votre CV n'a pas pu être enregistré. Réessayez dans un instant."
+    }
   }
 }
