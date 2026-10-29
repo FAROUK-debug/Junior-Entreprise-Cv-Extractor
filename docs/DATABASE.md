@@ -61,7 +61,7 @@ Every table is linked to the user's account (`auth.users`, Supabase's own table)
 | `looking_for` | `pfe`, `internship` or `job`. Chosen by the candidate at upload, never by the AI |
 | `data` | The whole profile (name, education, skills…) as JSON, shaped by `worker/cv_worker/schema.py` |
 | `search_tsv` | Filled automatically from `data`: every word in the profile, ready for fast word search ("PyTorch", "ENIT"). Never written by hand |
-| `embedding` | 1,024 numbers from `mistral-embed` that represent the profile's meaning, for "search by meaning". Empty until the worker computes it |
+| `embedding` | 1,024 numbers from `gemini-embedding-001` (was `mistral-embed` before 29 Oct; no vector was stored with it) that represent the profile's meaning, for "search by meaning". Empty until the worker computes it |
 | `approved_at` | When the candidate last approved |
 | `created_at`, `updated_at` | When the row was created and last changed (`updated_at` updates itself) |
 
@@ -71,7 +71,7 @@ Every table is linked to the user's account (`auth.users`, Supabase's own table)
 |---|---|
 | `user_id` | The candidate's account. At most one draft at a time: a new upload replaces it |
 | `data` | What the AI extracted, same shape as `profiles.data`. The review form edits this |
-| `provider` | Which AI produced it: `mistral` or `gemini` (the fallback) |
+| `provider` | Which AI produced it: `gemini` (the project is Gemini only since 29 Oct; the column still accepts `mistral`) |
 | `created_at`, `updated_at` | As above |
 
 **Why a separate table and not a column on `profiles`?** RLS works per row. A company allowed

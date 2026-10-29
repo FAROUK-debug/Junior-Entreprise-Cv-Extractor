@@ -83,11 +83,12 @@ gitignored. **Never commit a key, paste it in ClickUp, or put it in a `NEXT_PUBL
 | `SUPABASE_URL` | worker | Same address as above |
 | `SUPABASE_SERVICE_ROLE_KEY` | web (server only), worker | Bypasses every database rule. Server side only |
 | `APP_URL` | web | The site's address, used in QR codes and emails |
-| `MISTRAL_API_KEY` | web, worker | Mistral: OCR and extraction (worker), search embeddings (web) |
-| `MISTRAL_EMBED_MODEL` | web, worker | Always `mistral-embed`. The one embedding model, forever |
-| `GEMINI_API_KEY` | worker | Fallback when Mistral can't read a CV |
-| `NVIDIA_API_KEY` | web | Smart search (bonus) |
+| `GEMINI_API_KEY` | web, worker | Google Gemini: reads the CVs (worker) and computes the embeddings (worker and search on the web) |
+| `GEMINI_MODEL`, `GEMINI_FALLBACK_MODEL` | worker | Extraction model and the one asked when it is busy or out of quota (S1-21) |
+| `GEMINI_EMBED_MODEL` | web, worker | Always `gemini-embedding-001` (1024 dimensions). The one embedding model |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` | web | The club Gmail that sends company access codes |
+
+The AI is **Google Gemini only** since 29 Oct (Mistral's free API refused every call). Free limits and what we measured: [docs/AI_LIMITS.md](docs/AI_LIMITS.md).
 
 ## How we work
 
