@@ -11,13 +11,15 @@ five repeatable sections share one React Hook Form and Save button. Entries
 collapse on a phone. Every field from the worker is retained, including dates,
 current flags, experience type, technologies, project URLs and education grades.
 
-Missing optional text remains null. Added entries must meet the existing schema
-to save; incomplete personal information can still be saved as a draft. Approval
+Missing optional text remains null. A draft-only schema derives the same shape
+from the canonical schema, allowing incomplete entry identifiers, partially typed
+email/URL/dates and an empty experience count to be saved and loaded again. It
+keeps the canonical field names, nested structures and enum choices. Approval
 uses the same rule as S1-32: name/email plus the schema's entry identifiers are
 required. Degree, dates and language level are optional (Ahmed, 29 October).
 
-The server action checks the confirmed candidate session, validates the generated
-schema, and writes through the existing user client/RLS. Owner and updated_at
+The server action checks the confirmed candidate session, validates the draft
+structure, and writes through the existing user client/RLS. Owner and updated_at
 filters reject stale saves. looking_for comes from profiles, never submitted form
 data. Failed saves retain edits. Approval saves first, then posts that saved
 updated_at to the real endpoint. Validation errors open/focus affected cards;

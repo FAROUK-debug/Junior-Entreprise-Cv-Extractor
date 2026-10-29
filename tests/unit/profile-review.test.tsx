@@ -4,6 +4,7 @@ import { JSDOM } from "jsdom";
 import React from "react";
 import { AppRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { ProfileSchema, type CandidateProfile } from "@/lib/profile/schema.gen";
+import { DraftSchema, type ProfileDraft } from "@/lib/profile/draft-schema";
 import example from "../fixtures/example-profile.json";
 
 const dom = new JSDOM("<!doctype html><html><body></body></html>", { url: "http://localhost" });
@@ -106,6 +107,25 @@ test("candidate review form", async (suite) => {
     await screen.findByText("Check the highlighted fields before continuing.");
     assert.equal(saves, 1);
     assert.equal(screen.getByLabelText("Full name").getAttribute("aria-invalid"), "true");
+    assert.equal(screen.getByLabelText("Email").getAttribute("aria-invalid"), "true");
+  });
+
+  await suite.test("unfinished entry/email/number edits save as drafts and remain blocked for approval", async () => {
+    let saved: ProfileDraft | undefined;
+    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async (value) => { saved = DraftSchema.parse(value); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider>);
+    const user = userEvent.setup();
+    await user.clear(screen.getByLabelText("Email")); await user.type(screen.getByLabelText("Email"), "unfinished");
+    await user.clear(screen.getByLabelText("Years of professional experience"));
+    await user.click(screen.getByRole("button", { name: "Add Education" }));
+    await user.click(screen.getByRole("button", { name: "Save draft" }));
+    await screen.findByText("Draft saved.");
+    assert.equal(saved?.education[1].institution, "");
+    assert.equal(saved?.basics.email, "unfinished");
+    assert.equal(saved?.classification.years_experience, null);
+    assert.equal(ProfileSchema.safeParse(saved).success, false);
+    assert.equal(DraftSchema.safeParse(saved).success, true);
+    await user.click(screen.getByRole("button", { name: "Approve" }));
+    await screen.findByText("Check the highlighted fields before continuing.");
     assert.equal(screen.getByLabelText("Email").getAttribute("aria-invalid"), "true");
   });
 

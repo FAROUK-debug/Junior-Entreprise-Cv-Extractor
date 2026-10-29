@@ -1,10 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { CandidateProfile } from "./schema.gen";
+import type { ProfileDraft } from "./draft-schema";
 
 export type SaveResult = { ok: true; updatedAt: string } | { ok: false; reason: "unauthorized" | "invalid" | "failed" | "conflict" };
 
 /** Receives the verified session user ID from the server action, never from form data. */
-export async function updateDraft(client: SupabaseClient, userId: string, input: CandidateProfile, updatedAt: string): Promise<SaveResult> {
+export async function updateDraft(client: SupabaseClient, userId: string, input: ProfileDraft, updatedAt: string): Promise<SaveResult> {
   const { data: profile, error: profileError } = await client.from("profiles").select("looking_for").eq("user_id", userId).maybeSingle();
   if (profileError) return { ok: false, reason: "failed" };
   const data = { ...input, looking_for: profile?.looking_for ?? null };

@@ -2,7 +2,8 @@
 
 import { useId, useRef } from "react";
 import { useFieldArray, useFormContext, useWatch, type FieldPath } from "react-hook-form";
-import { ProfileSchema, type CandidateProfile } from "@/lib/profile/schema.gen";
+import { ProfileSchema } from "@/lib/profile/schema.gen";
+import type { ProfileDraft } from "@/lib/profile/draft-schema";
 import { Button } from "@/components/ui/button";
 import en from "@/messages/en.json";
 import fr from "@/messages/fr.json";
@@ -28,7 +29,7 @@ const blanks = {
 
 function SectionEditor({ name, locale }: { name: Section; locale: "en" | "fr" }) {
   const copy = (locale === "fr" ? fr : en).reviewSections;
-  const { control, register, getFieldState, formState } = useFormContext<CandidateProfile>();
+  const { control, register, getFieldState, formState } = useFormContext<ProfileDraft>();
   const { fields, append, remove } = useFieldArray({ control, name });
   const values = useWatch({ control, name });
   const id = useId();
@@ -44,7 +45,7 @@ function SectionEditor({ name, locale }: { name: Section; locale: "en" | "fr" })
         <summary className="min-h-11 cursor-pointer break-words py-2 font-medium">{label}{summary ? ` · ${summary}` : ""}</summary>
         <div className="grid min-w-0 gap-4 pt-3 sm:grid-cols-2">
           {fieldSets[name].map((field) => {
-            const path = `${name}.${index}.${field.name}` as FieldPath<CandidateProfile>;
+            const path = `${name}.${index}.${field.name}` as FieldPath<ProfileDraft>;
             const fieldId = `${id}-${index}-${field.name}`;
             const error = getFieldState(path, formState).error;
             const input = register(path, field.kind === "checkbox" ? {} : { setValueAs: (value: unknown) => {

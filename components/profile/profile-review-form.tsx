@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { FormProvider, useForm, type FieldPath } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { ProfileSchema, type CandidateProfile } from "@/lib/profile/schema.gen";
+import { DraftSchema, type ProfileDraft } from "@/lib/profile/draft-schema";
 import { checkApproval } from "@/lib/profile/approval";
 import { saveProfileDraft } from "@/app/candidate/review/actions";
 import { RepeatableSections } from "./repeatable-sections";
@@ -11,14 +12,14 @@ import { Button } from "@/components/ui/button";
 import en from "@/messages/en.json";
 import fr from "@/messages/fr.json";
 
-type ProfilePath = FieldPath<CandidateProfile>;
+type ProfilePath = FieldPath<ProfileDraft>;
 export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", saveDraftAction = saveProfileDraft }: {
-  initialValues: CandidateProfile; updatedAt: string; locale?: "en" | "fr";
+  initialValues: ProfileDraft; updatedAt: string; locale?: "en" | "fr";
   saveDraftAction?: typeof saveProfileDraft;
 }) {
   const copy = (locale === "fr" ? fr : en).review;
   const router = useRouter();
-  const form = useForm<CandidateProfile>({ defaultValues: initialValues, shouldUnregister: false, shouldFocusError: false });
+  const form = useForm<ProfileDraft>({ defaultValues: initialValues, shouldUnregister: false, shouldFocusError: false });
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [failed, setFailed] = useState(false);
@@ -62,7 +63,7 @@ export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", sav
     if (locked.current) return;
     locked.current = true; setBusy(true); setFailed(false); setStatus(copy.saving); form.clearErrors();
     try {
-      const parsed = ProfileSchema.safeParse(form.getValues());
+      const parsed = (approve ? ProfileSchema : DraftSchema).safeParse(form.getValues());
       if (!parsed.success) {
         for (const issue of parsed.error.issues) form.setError(issue.path.join(".") as ProfilePath, { type: "schema", message: issue.code === "too_small" ? copy.required : copy.invalidField });
         setFailed(true); setStatus(copy.invalid); focusErrors(); return;
@@ -104,7 +105,7 @@ export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", sav
       <section aria-labelledby="classification-title" className="space-y-3"><h2 id="classification-title" className="text-xl font-semibold">{copy.classification}</h2><div className="grid gap-4 sm:grid-cols-2">
         <label>{copy.domain}<select {...form.register("classification.domain")} className="mt-1 w-full rounded-md border bg-background p-3 text-base">{ProfileSchema.shape.classification.shape.domain.options.map((domain) => <option key={domain} value={domain}>{copy.domains[domain]}</option>)}</select></label>
         <label>{copy.seniority}<select {...form.register("classification.seniority")} className="mt-1 w-full rounded-md border bg-background p-3 text-base">{ProfileSchema.shape.classification.shape.seniority.options.map((value) => <option key={value} value={value}>{copy.seniorities[value]}</option>)}</select></label>
-        <label>{copy.yearsExperience}<input {...form.register("classification.years_experience", { valueAsNumber: true })} type="number" min={0} max={60} step={0.5} aria-invalid={Boolean(form.formState.errors.classification?.years_experience)} aria-describedby="years-error" className="mt-1 w-full rounded-md border bg-background p-3 text-base" /><span id="years-error" className="block text-sm text-destructive">{form.formState.errors.classification?.years_experience?.message}</span></label>
+        <label>{copy.yearsExperience}<input {...form.register("classification.years_experience", { setValueAs: (value: unknown) => value === "" || value === null ? null : Number(value) })} type="number" min={0} max={60} step={0.5} aria-invalid={Boolean(form.formState.errors.classification?.years_experience)} aria-describedby="years-error" className="mt-1 w-full rounded-md border bg-background p-3 text-base" /><span id="years-error" className="block text-sm text-destructive">{form.formState.errors.classification?.years_experience?.message}</span></label>
       </div></section>
       <RepeatableSections locale={locale} />
     </fieldset>

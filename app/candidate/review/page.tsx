@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { ProfileSchema } from "@/lib/profile/schema.gen";
+import { DraftSchema } from "@/lib/profile/draft-schema";
 import { ProfileReviewForm } from "@/components/profile/profile-review-form";
 import en from "@/messages/en.json";
 
@@ -23,7 +23,7 @@ async function ReviewDraft() {
   ]);
   if (error || profileError) return <p role="alert">{copy.failedLoad}</p>;
   if (!draft) return <p role="status">{copy.noDraft}</p>;
-  const parsed = ProfileSchema.safeParse({ ...draft.data, looking_for: profile?.looking_for ?? null });
+  const parsed = DraftSchema.safeParse({ ...draft.data, looking_for: profile?.looking_for ?? null });
   if (!parsed.success) return <p role="alert">{copy.invalidDraft}</p>;
   return <ProfileReviewForm initialValues={{ ...parsed.data, looking_for: profile?.looking_for ?? null }} updatedAt={draft.updated_at} />;
 }
