@@ -119,7 +119,7 @@ test("candidate review form", async (suite) => {
     await user.click(screen.getByRole("button", { name: "Add Education" }));
     await user.click(screen.getByRole("button", { name: "Save draft" }));
     await screen.findByText("Draft saved.");
-    assert.equal(saved?.education[1].institution, "");
+    assert.equal(saved?.education[1].institution, null);
     assert.equal(saved?.basics.email, "unfinished");
     assert.equal(saved?.classification.years_experience, null);
     assert.equal(ProfileSchema.safeParse(saved).success, false);

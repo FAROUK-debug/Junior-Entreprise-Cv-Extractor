@@ -3,8 +3,8 @@ import { ProfileSchema } from "./schema.gen";
 
 // A draft retains unfinished edits. Approval still uses the generated ProfileSchema.
 // Keep the canonical structure/enums and loosen only editable text/number constraints.
-const text = z.string();
-const optionalText = text.nullable();
+const text = z.string().nullable();
+const optionalText = text;
 export const DraftSchema = ProfileSchema.extend({
   basics: ProfileSchema.shape.basics.extend({
     email: optionalText,

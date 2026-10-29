@@ -51,7 +51,7 @@ function SectionEditor({ name, locale }: { name: Section; locale: "en" | "fr" })
             const input = register(path, field.kind === "checkbox" ? {} : { setValueAs: (value: unknown) => {
               if (field.kind === "technologies") return (Array.isArray(value) ? value : String(value ?? "").split(",")).map((value) => String(value).trim()).filter(Boolean);
               const text = typeof value === "string" ? value.trim() : value;
-              return field.nullable && !text ? null : text;
+              return text === "" ? null : text;
             } });
             const props = { ...input, id: fieldId, "aria-invalid": Boolean(error), "aria-describedby": error ? `${fieldId}-error` : undefined, className: "w-full min-w-0 rounded-md border bg-background p-3 text-base" };
             return <div key={field.name} className={field.kind === "textarea" ? "sm:col-span-2" : ""}>

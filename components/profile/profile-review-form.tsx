@@ -65,7 +65,7 @@ export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", sav
     try {
       const parsed = (approve ? ProfileSchema : DraftSchema).safeParse(form.getValues());
       if (!parsed.success) {
-        for (const issue of parsed.error.issues) form.setError(issue.path.join(".") as ProfilePath, { type: "schema", message: issue.code === "too_small" ? copy.required : copy.invalidField });
+        for (const issue of parsed.error.issues) form.setError(issue.path.join(".") as ProfilePath, { type: "schema", message: issue.code === "too_small" || issue.code === "invalid_type" ? copy.required : copy.invalidField });
         setFailed(true); setStatus(copy.invalid); focusErrors(); return;
       }
       if (approve) {
