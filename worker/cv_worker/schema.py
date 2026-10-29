@@ -27,7 +27,6 @@ from pydantic import BaseModel, ConfigDict, Field
 # Fixed lists
 # ---------------------------------------------------------------------------
 
-# TODO(team): confirm against the official domain list in the design doc.
 Domain = Literal[
     "software_engineering",
     "data_ai",
