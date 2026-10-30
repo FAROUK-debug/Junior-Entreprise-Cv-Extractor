@@ -40,7 +40,7 @@ def check_gemini(key: str) -> str:
     models = call("https://generativelanguage.googleapis.com/v1beta/models?pageSize=200", headers)["models"]
     usable = [m["name"] for m in models if "generateContent" in m.get("supportedGenerationMethods", [])]
     # Same model as the worker (worker/cv_worker/ai/gemini.py).
-    model = "models/gemini-3.5-flash" if "models/gemini-3.5-flash" in usable else usable[0]
+    model = "models/gemini-3.5-flash-lite" if "models/gemini-3.5-flash-lite" in usable else usable[0]
     answer = call(
         f"https://generativelanguage.googleapis.com/v1beta/{model}:generateContent",
         headers,

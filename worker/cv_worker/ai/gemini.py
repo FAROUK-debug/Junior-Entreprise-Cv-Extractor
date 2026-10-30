@@ -47,18 +47,19 @@ RESPONSE_SCHEMA = _inline_refs(_schema, _schema.get("$defs", {}))
 
 
 def model_name() -> str:
-    # gemini-3.5-flash answered in 2 s on 29 Oct while the newest Flash (3.8) timed out on the free tier.
+    # Flash-Lite is the main model since 29 Oct (Ahmed's call): Flash's free 20 requests a day are gone
+    # by mid-morning, and Flash-Lite scored the same on the S1-22 test set.
     # Google retires old versions for new keys, so change it here or in .env when that happens.
-    return os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
+    return os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 
 def fallback_model_name() -> str | None:
     """
-    S1-21: the model to ask when the main one fails. Each Gemini model has its own free quota
-    (gemini-3.5-flash: 20 requests a day on 29 Oct), so Flash-Lite keeps working when Flash is used up.
+    S1-21: the model to ask when the main one fails. Each Gemini model has its own free quota,
+    so Flash (20 requests a day on 29 Oct) can still answer when Flash-Lite is busy or used up.
     Set GEMINI_FALLBACK_MODEL to an empty value to turn the fallback off.
     """
-    return os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.5-flash-lite") or None
+    return os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.5-flash") or None
 
 
 def make_client(api_key: str | None = None) -> genai.Client:

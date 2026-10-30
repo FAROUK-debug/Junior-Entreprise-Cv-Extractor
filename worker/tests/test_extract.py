@@ -71,7 +71,7 @@ def test_turns_a_pdf_into_a_validated_profile():
     assert result.meta["provider"] == "gemini"
     assert result.meta["model"] == "gemini-3.8-flash"
     path, body = fake.requests[0]
-    assert path.endswith("models/gemini-3.5-flash:generateContent")
+    assert path.endswith("models/gemini-3.5-flash-lite:generateContent")
     file_part = body["contents"][0]["parts"][0]["inlineData"]
     assert file_part["mime_type"] == "application/pdf"
     assert base64.b64decode(file_part["data"]) == PDF
@@ -109,7 +109,7 @@ def test_logs_provider_model_and_duration_never_the_cv_or_personal_data(caplog):
 
     events = [json.loads(r.getMessage()) for r in caplog.records if r.name == "cv_worker.ai"]
     assert [(e["provider"], e["step"], e["ok"]) for e in events] == [("gemini", "extract", True)]
-    assert events[0]["model"] == "gemini-3.5-flash"
+    assert events[0]["model"] == "gemini-3.5-flash-lite"
     assert isinstance(events[0]["duration_ms"], int)
     for secret in ("Sarra", "sarra.benali", "Python", "test-key"):
         assert secret not in caplog.text
@@ -170,6 +170,19 @@ def test_a_call_that_takes_too_long_becomes_timeout(caplog):
     assert (result.status, result.code) == ("failed", "timeout")
     last = json.loads(caplog.records[-1].getMessage())
     assert (last["provider"], last["ok"], last["error"]) == ("gemini", False, "timeout")
+
+
+def test_an_unexpected_error_is_a_failed_result_never_a_crash():
+    # The worker loop (S1-24) relies on extract_cv never raising: a crash would leave the job on "processing".
+    class Broken:
+        class models:  # mimics client.models
+            @staticmethod
+            def generate_content(**kwargs):
+                raise ValueError("surprise from the SDK, with Sarra Ben Ali in it")
+
+    result = extract_cv(PDF, "application/pdf", today=TODAY, client=Broken())
+    assert (result.status, result.code, result.message) == ("failed", "internal", TRY_AGAIN)
+    assert "Sarra" not in json.dumps(result.to_dict())
 
 
 def test_rejects_unsupported_files_without_calling_the_api():
