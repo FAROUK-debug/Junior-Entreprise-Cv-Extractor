@@ -21,7 +21,3 @@ export function authErrorCode(code?: string, status?: number): AuthError {
   if (["otp_expired", "otp_disabled", "flow_state_expired", "flow_state_not_found", "session_not_found"].includes(code ?? "")) return "invalidLink";
   return "failed";
 }
-
-export function candidateDestination(hasProfile: boolean) {
-  return hasProfile ? "/candidate/profile" : "/candidate/upload";
-}

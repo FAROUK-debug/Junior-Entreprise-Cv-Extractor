@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { AUTH_ACTIONS, authErrorCode, candidateDestination, validateAuth, type AuthAction } from "@/lib/candidate-auth";
+import { AUTH_ACTIONS, authErrorCode, validateAuth, type AuthAction } from "@/lib/candidate-auth";
+import { loadCandidateState, nextStep } from "@/lib/candidate/next-step";
 
 export async function POST(request: NextRequest) {
   // Reject cross-site requests before touching cookies or sending email.
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
     if (action === "logout") {
       const { error } = await supabase.auth.signOut({ scope: "local" });
-      return error ? failure(error) : NextResponse.json({ redirect: `/candidate/login?lang=${locale}` });
+      return error ? failure(error) : NextResponse.json({ redirect: "/candidate/login" });
     }
     if (action === "reset") {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -59,9 +60,8 @@ export async function POST(request: NextRequest) {
       await supabase.auth.signOut({ scope: "local" });
       return NextResponse.json({ error: "wrongRole" }, { status: 403 });
     }
-    const { data: profile, error: profileError } = await supabase.from("profiles").select("user_id").eq("user_id", data.user.id).maybeSingle();
-    if (profileError) return NextResponse.json({ error: "unavailable" }, { status: 503 });
-    return NextResponse.json({ redirect: candidateDestination(!!profile) });
+    // Upload, processing, review or QR page: wherever this candidate is in the flow.
+    return NextResponse.json({ redirect: nextStep(await loadCandidateState(supabase, data.user.id)) });
   } catch {
     return NextResponse.json({ error: "unavailable" }, { status: 503 });
   }

@@ -1,7 +1,9 @@
 "use client";
-// The account menu in the header, shown only when someone is logged in.
+// The account menu in the header, shown only when someone is logged in. "Log out" lives here (S1-26),
+// so every page has it in the same place.
 import Link from "next/link";
-import { UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LogOutIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,6 +21,17 @@ const spaceFor: Record<Role, string> = { candidate: "/candidate", company: "/com
 
 export function UserMenu({ email, role }: { email: string; role: Role | null }) {
   const t = useTranslations("site");
+  const router = useRouter();
+
+  async function logOut() {
+    // The server ends the session (POST /api/candidate/auth, "logout" signs out whatever the role).
+    await fetch("/api/candidate/auth", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "logout" }),
+    }).catch(() => null);
+    router.replace("/");
+    router.refresh();
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="outline" size="icon" aria-label={t("userMenu.open")} />}>
@@ -40,6 +53,11 @@ export function UserMenu({ email, role }: { email: string; role: Role | null }) 
             <DropdownMenuItem render={<Link href={spaceFor[role]} />}>{t("userMenu.mySpace")}</DropdownMenuItem>
           </>
         )}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={logOut}>
+          <LogOutIcon aria-hidden="true" />
+          {t("userMenu.logOut")}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
