@@ -1,6 +1,5 @@
 {
   "placeholder": {
-    "home": "CV Extractor — landing page (S1-25)",
     "candidate": "Candidate space — sign-up, upload and review go here (S1-26 → S1-32)",
     "company": "Company space — CVs, search and QR scan go here (Sprint 2)",
     "admin": "Admin dashboard — companies and statistics go here (Sprint 2)"
@@ -97,5 +96,35 @@
     "tabTwoBody": "Content of the second tab.",
     "layout": "Layout",
     "layoutBody": "SiteHeader and SiteFooter sit in app/layout.tsx, so they appear on every page. Wrap page content in PageContainer."
+  },
+  "landing": {
+    "eyebrow": "Pristini JE job fair · Wednesday 11 November 2026",
+    "title": "Your CV, ready for recruiters in minutes",
+    "subtitle": "Upload your CV, our AI fills in your profile, you check it and get a QR code to show at the fair.",
+    "candidate": {
+      "title": "I'm a candidate",
+      "text": "Looking for a PFE, an internship or a job? Create your profile from your CV.",
+      "cta": "Upload my CV"
+    },
+    "company": {
+      "title": "I'm a company",
+      "text": "Search the candidates' profiles and scan their QR codes at the fair. The club sends you your login.",
+      "cta": "Company login"
+    },
+    "howTitle": "How it works",
+    "steps": [
+      {
+        "title": "Upload your CV",
+        "text": "PDF, JPG or PNG, up to 5 MB. A photo from your phone works too."
+      },
+      {
+        "title": "Check your profile",
+        "text": "Our AI fills it in for you. Fix anything it missed, then approve it. Nothing is shown to recruiters before you do."
+      },
+      {
+        "title": "Show your QR code",
+        "text": "At the fair, recruiters scan it and open your profile. Your CV file is deleted after reading."
+      }
+    ]
   }
 }
