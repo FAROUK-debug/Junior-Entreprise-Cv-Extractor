@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "schema:gen": "json-schema-to-zod -i shared/profile.schema.json -o lib/profile/schema.gen.ts -n ProfileSchema -t CandidateProfile -m esm",
-    "test": "tsx --test tests/unit/*.test.ts",
+    "test": "tsx --test tests/unit/*.test.ts*",
     "test:api": "tsx --test --test-concurrency=1 tests/api/*.test.ts"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "qrcode": "^1.5.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "react-hook-form": "^7.91.0",
     "server-only": "0.0.1",
     "shadcn": "^4.23.0",
     "sonner": "^2.0.8",
@@ -31,6 +32,9 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
     "@types/pngjs": "^6.0.5",
     "@types/qrcode": "^1.5.6",
@@ -38,6 +42,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "jsdom": "^30.1.3",
     "json-schema-to-zod": "^2.8.1",
     "jsqr": "^1.4.0",
     "pngjs": "^7.0.0",
