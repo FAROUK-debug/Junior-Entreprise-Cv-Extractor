@@ -5,7 +5,10 @@ import React from "react";
 import { AppRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { ProfileSchema, type CandidateProfile } from "@/lib/profile/schema.gen";
 import { DraftSchema, type ProfileDraft } from "@/lib/profile/draft-schema";
+import { NextIntlClientProvider } from "next-intl";
 import example from "../fixtures/example-profile.json";
+import en from "../../messages/en.json";
+import fr from "../../messages/fr.json";
 
 const dom = new JSDOM("<!doctype html><html><body></body></html>", { url: "http://localhost" });
 Object.assign(globalThis, { window: dom.window, document: dom.window.document, HTMLElement: dom.window.HTMLElement, HTMLInputElement: dom.window.HTMLInputElement, Node: dom.window.Node, getComputedStyle: dom.window.getComputedStyle, requestAnimationFrame: (fn: FrameRequestCallback) => setTimeout(fn, 0) });
@@ -21,11 +24,18 @@ test("candidate review form", async (suite) => {
   const router = { bfcacheId: "test", back() {}, forward() {}, refresh() {}, push(url: string) { pushes.push(url); }, replace() {}, prefetch: async () => {} };
   suite.afterEach(() => { cleanup(); pushes.length = 0; });
 
+  await suite.test("the form speaks the language chosen in the header", async () => {
+    render(<NextIntlClientProvider locale="fr" messages={fr}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: true, updatedAt: "v2" })} /></AppRouterContext.Provider></NextIntlClientProvider>);
+    assert.ok(screen.getByLabelText(fr.review.fields.basics_name));
+    assert.ok(screen.getByRole("button", { name: fr.review.save }));
+    assert.equal(screen.queryByRole("button", { name: en.review.save }), null);
+  });
+
   await suite.test("edited/deleted entries round-trip without losing the worker's extra fields", async () => {
     const initial = fixture();
     initial.education.push({ ...initial.education[0], institution: "Second school" });
     let saved: CandidateProfile | undefined;
-    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={initial} updatedAt="v1" saveDraftAction={async (values) => { saved = ProfileSchema.parse(values); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider>);
+    render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={initial} updatedAt="v1" saveDraftAction={async (values) => { saved = ProfileSchema.parse(values); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider></NextIntlClientProvider>);
     const user = userEvent.setup();
     await user.click(screen.getByText(/Education 1 ·/));
     await user.click(screen.getByRole("button", { name: "Remove Education 1" }));
@@ -46,7 +56,7 @@ test("candidate review form", async (suite) => {
     const initial = fixture();
     initial.education = []; initial.experience = []; initial.projects = []; initial.languages = []; initial.certifications = []; initial.basics.links = [];
     let saved: CandidateProfile | undefined;
-    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={initial} updatedAt="v1" saveDraftAction={async (value) => { saved = ProfileSchema.parse(value); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider>);
+    render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={initial} updatedAt="v1" saveDraftAction={async (value) => { saved = ProfileSchema.parse(value); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider></NextIntlClientProvider>);
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "Add Education" }));
     await user.type(screen.getByLabelText("School (required)"), "University");
@@ -76,7 +86,7 @@ test("candidate review form", async (suite) => {
 
   await suite.test("approval opens incomplete entries and never saves them", async () => {
     let calls = 0;
-    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => { calls++; return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider>);
+    render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => { calls++; return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider></NextIntlClientProvider>);
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "Add Education" }));
     await user.click(screen.getByRole("button", { name: "Approve" }));
@@ -87,7 +97,7 @@ test("candidate review form", async (suite) => {
   });
 
   await suite.test("save conflicts retain edits and restore the buttons", async () => {
-    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: false, reason: "conflict" })} /></AppRouterContext.Provider>);
+    render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: false, reason: "conflict" })} /></AppRouterContext.Provider></NextIntlClientProvider>);
     const user = userEvent.setup();
     await user.clear(screen.getByLabelText("Full name")); await user.type(screen.getByLabelText("Full name"), "Unsaved name");
     await user.click(screen.getByRole("button", { name: "Save draft" }));
@@ -99,7 +109,7 @@ test("candidate review form", async (suite) => {
   await suite.test("personal information can be saved unfinished but cannot be approved", async () => {
     const initial = fixture(); initial.basics.name = null; initial.basics.email = null;
     let saves = 0;
-    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={initial} updatedAt="v1" saveDraftAction={async () => { saves++; return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider>);
+    render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={initial} updatedAt="v1" saveDraftAction={async () => { saves++; return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider></NextIntlClientProvider>);
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "Save draft" }));
     await screen.findByText("Draft saved.");
@@ -112,7 +122,7 @@ test("candidate review form", async (suite) => {
 
   await suite.test("unfinished entry/email/number edits save as drafts and remain blocked for approval", async () => {
     let saved: ProfileDraft | undefined;
-    render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async (value) => { saved = DraftSchema.parse(value); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider>);
+    render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async (value) => { saved = DraftSchema.parse(value); return { ok: true, updatedAt: "v2" }; }} /></AppRouterContext.Provider></NextIntlClientProvider>);
     const user = userEvent.setup();
     await user.clear(screen.getByLabelText("Email")); await user.type(screen.getByLabelText("Email"), "unfinished");
     await user.clear(screen.getByLabelText("Years of professional experience"));
@@ -134,7 +144,7 @@ test("candidate review form", async (suite) => {
     let submitted: unknown;
     globalThis.fetch = async (url, init) => { assert.equal(url, "/api/profile/approve"); submitted = JSON.parse(String(init?.body)); return Response.json({ redirect: "/candidate/approved" }); };
     try {
-      render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: true, updatedAt: "v2" })} /></AppRouterContext.Provider>);
+      render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: true, updatedAt: "v2" })} /></AppRouterContext.Provider></NextIntlClientProvider>);
       await userEvent.setup().click(screen.getByRole("button", { name: "Approve" }));
       await waitFor(() => assert.deepEqual(pushes, ["/candidate/approved"]));
       assert.deepEqual(submitted, { updated_at: "v2" });
@@ -145,7 +155,7 @@ test("candidate review form", async (suite) => {
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => Response.json({ fields: ["education.0.institution"] }, { status: 422 });
     try {
-      render(<AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: true, updatedAt: "v2" })} /></AppRouterContext.Provider>);
+      render(<NextIntlClientProvider locale="en" messages={en}><AppRouterContext.Provider value={router}><ProfileReviewForm initialValues={fixture()} updatedAt="v1" saveDraftAction={async () => ({ ok: true, updatedAt: "v2" })} /></AppRouterContext.Provider></NextIntlClientProvider>);
       await userEvent.setup().click(screen.getByRole("button", { name: "Approve" }));
       await screen.findByText("Check the highlighted fields before continuing.");
       await waitFor(() => assert.equal(screen.getByLabelText("School (required)").closest("details")?.open, true));

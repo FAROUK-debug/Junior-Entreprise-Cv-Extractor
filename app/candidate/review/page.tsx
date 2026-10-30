@@ -3,16 +3,19 @@ import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { DraftSchema } from "@/lib/profile/draft-schema";
 import { ProfileReviewForm } from "@/components/profile/profile-review-form";
-import en from "@/messages/en.json";
+import { getMessages } from "next-intl/server";
+import { PageContainer } from "@/components/site/page-container";
 
-export default function ReviewPage() {
-  return <main className="mx-auto w-full max-w-4xl p-4 sm:p-8">
-    <Suspense fallback={<p role="status">{en.review.loading}</p>}><ReviewDraft /></Suspense>
-  </main>;
+// S1-30/S1-31 · /candidate/review: the candidate checks and corrects what the AI extracted, then approves.
+export default async function ReviewPage() {
+  const copy = (await getMessages()).review;
+  return <PageContainer className="max-w-4xl">
+    <Suspense fallback={<p role="status">{copy.loading}</p>}><ReviewDraft /></Suspense>
+  </PageContainer>;
 }
 
 async function ReviewDraft() {
-  const copy = en.review;
+  const copy = (await getMessages()).review;
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return <p role="alert">{copy.unavailable}</p>;
   const user = await getCurrentUser();
   if (!user || user.role !== "candidate" || !user.emailConfirmed) return <p role="alert">{copy.unauthorized}</p>;

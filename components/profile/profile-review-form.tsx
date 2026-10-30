@@ -9,15 +9,15 @@ import { checkApproval } from "@/lib/profile/approval";
 import { saveProfileDraft } from "@/app/candidate/review/actions";
 import { RepeatableSections } from "./repeatable-sections";
 import { Button } from "@/components/ui/button";
-import en from "@/messages/en.json";
-import fr from "@/messages/fr.json";
+import { useMessages } from "next-intl";
 
 type ProfilePath = FieldPath<ProfileDraft>;
-export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", saveDraftAction = saveProfileDraft }: {
-  initialValues: ProfileDraft; updatedAt: string; locale?: "en" | "fr";
+export function ProfileReviewForm({ initialValues, updatedAt, saveDraftAction = saveProfileDraft }: {
+  initialValues: ProfileDraft; updatedAt: string;
   saveDraftAction?: typeof saveProfileDraft;
 }) {
-  const copy = (locale === "fr" ? fr : en).review;
+  // The texts of the language chosen in the header (S1-14). Keys have no dots: "basics.name" → "basics_name".
+  const copy = useMessages().review;
   const router = useRouter();
   const form = useForm<ProfileDraft>({ defaultValues: initialValues, shouldUnregister: false, shouldFocusError: false });
   const [busy, setBusy] = useState(false);
@@ -38,7 +38,7 @@ export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", sav
     const id = path.replaceAll(".", "-");
     const props = { id, ...form.register(path, { setValueAs: (value: unknown) => typeof value === "string" ? value.trim() || null : value }), "aria-invalid": Boolean(error), "aria-describedby": `${id}-hint`, className: "w-full rounded-md border bg-background p-3 text-base" };
     return <div key={path} className={path === "basics.summary" ? "sm:col-span-2" : ""}>
-      <label htmlFor={id} className="mb-1 block text-sm font-medium">{copy.fields[path]}</label>
+      <label htmlFor={id} className="mb-1 block text-sm font-medium">{copy.fields[path.replace(".", "_") as keyof typeof copy.fields]}</label>
       {path === "basics.summary" ? <textarea {...props} rows={5} /> : <input {...props} type={path === "basics.email" ? "email" : path === "basics.phone" ? "tel" : "text"} />}
       <p id={`${id}-hint`} className={error ? "text-sm text-destructive" : "text-sm text-muted-foreground"}>{error?.message || (!original ? copy.missing : "")}</p>
     </div>;
@@ -95,7 +95,7 @@ export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", sav
     <header><h1 className="text-3xl font-semibold">{copy.title}</h1><p className="mt-2 text-muted-foreground">{copy.intro}</p><p className="mt-2 text-sm">{copy.approvalRequirements}</p></header>
     <fieldset disabled={busy} className="min-w-0 space-y-8">
       <section aria-labelledby="personal-title"><h2 id="personal-title" className="mb-4 text-xl font-semibold">{copy.personal}</h2><div className="grid gap-4 sm:grid-cols-2">{personal.map(input)}</div></section>
-      <RepeatableSections locale={locale} linksOnly />
+      <RepeatableSections linksOnly />
       <section aria-labelledby="about-title"><h2 id="about-title" className="mb-4 text-xl font-semibold">{copy.about}</h2><div className="grid gap-4 sm:grid-cols-2">{about.map(input)}</div></section>
       <section aria-labelledby="skills-title" className="space-y-3"><h2 id="skills-title" className="text-xl font-semibold">{copy.skills}</h2>
         <ul className="flex flex-wrap gap-2">{skills.map((value, index) => <li key={`${value.name}-${index}`}><Button type="button" variant="secondary" className="min-h-11 max-w-full whitespace-normal break-words" aria-label={`${copy.removeSkill} ${value.name}`} onClick={() => form.setValue("skills", skills.filter((_, item) => item !== index), { shouldDirty: true })}>{value.name} ×</Button></li>)}</ul>
@@ -107,7 +107,7 @@ export function ProfileReviewForm({ initialValues, updatedAt, locale = "en", sav
         <label>{copy.seniority}<select {...form.register("classification.seniority")} className="mt-1 w-full rounded-md border bg-background p-3 text-base">{ProfileSchema.shape.classification.shape.seniority.options.map((value) => <option key={value} value={value}>{copy.seniorities[value]}</option>)}</select></label>
         <label>{copy.yearsExperience}<input {...form.register("classification.years_experience", { setValueAs: (value: unknown) => value === "" || value === null ? null : Number(value) })} type="number" min={0} max={60} step={0.5} aria-invalid={Boolean(form.formState.errors.classification?.years_experience)} aria-describedby="years-error" className="mt-1 w-full rounded-md border bg-background p-3 text-base" /><span id="years-error" className="block text-sm text-destructive">{form.formState.errors.classification?.years_experience?.message}</span></label>
       </div></section>
-      <RepeatableSections locale={locale} />
+      <RepeatableSections />
     </fieldset>
     <div className="space-y-3 border-t py-4"><p role={failed ? "alert" : "status"} aria-live="polite">{status}</p><div className="flex flex-col gap-3 sm:flex-row"><Button type="submit" disabled={busy} className="min-h-11" variant="outline">{copy.save}</Button><Button type="button" disabled={busy} className="min-h-11" onClick={() => void persist(true)}>{copy.approve}</Button></div></div>
   </form></FormProvider>;

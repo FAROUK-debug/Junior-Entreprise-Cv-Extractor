@@ -5,8 +5,7 @@ import { useFieldArray, useFormContext, useWatch, type FieldPath } from "react-h
 import { ProfileSchema } from "@/lib/profile/schema.gen";
 import type { ProfileDraft } from "@/lib/profile/draft-schema";
 import { Button } from "@/components/ui/button";
-import en from "@/messages/en.json";
-import fr from "@/messages/fr.json";
+import { useMessages } from "next-intl";
 
 type Section = "basics.links" | "education" | "experience" | "projects" | "languages" | "certifications";
 type Field = { name: string; nullable?: boolean; kind?: "textarea" | "checkbox" | "technologies" | "select"; options?: readonly string[] };
@@ -27,20 +26,22 @@ const blanks = {
   certifications: { name: "", issuer: null, date: null },
 } satisfies Record<Section, object>;
 
-function SectionEditor({ name, locale }: { name: Section; locale: "en" | "fr" }) {
-  const copy = (locale === "fr" ? fr : en).reviewSections;
+function SectionEditor({ name }: { name: Section }) {
+  // The texts of the language chosen in the header (S1-14). Keys have no dots: "basics.links" → "basics_links".
+  const copy = useMessages().reviewSections;
+  const title = copy.sections[name.replace(".", "_") as keyof typeof copy.sections];
   const { control, register, getFieldState, formState } = useFormContext<ProfileDraft>();
   const { fields, append, remove } = useFieldArray({ control, name });
   const values = useWatch({ control, name });
   const id = useId();
   const container = useRef<HTMLElement>(null);
   return <section ref={container} className="min-w-0 space-y-3" aria-labelledby={`${id}-title`}>
-    <h2 id={`${id}-title`} className="text-xl font-semibold">{copy.sections[name]}</h2>
+    <h2 id={`${id}-title`} className="text-xl font-semibold">{title}</h2>
     {!fields.length && <p className="text-sm text-muted-foreground">{copy.empty}</p>}
     {fields.map((item, index) => {
       const entry = values?.[index];
       const summary = entry && Object.values(entry).find((value) => typeof value === "string" && value);
-      const label = `${copy.sections[name]} ${index + 1}`;
+      const label = `${title} ${index + 1}`;
       return <details key={item.id} className="min-w-0 rounded-lg border p-3">
         <summary className="min-h-11 cursor-pointer break-words py-2 font-medium">{label}{summary ? ` · ${summary}` : ""}</summary>
         <div className="grid min-w-0 gap-4 pt-3 sm:grid-cols-2">
@@ -67,7 +68,7 @@ function SectionEditor({ name, locale }: { name: Section; locale: "en" | "fr" })
         </div>
       </details>;
     })}
-    <Button type="button" variant="outline" className="min-h-11" aria-label={`${copy.add} ${copy.sections[name]}`} onClick={() => {
+    <Button type="button" variant="outline" className="min-h-11" aria-label={`${copy.add} ${title}`} onClick={() => {
       append(structuredClone(blanks[name]) as never, { shouldFocus: false });
       requestAnimationFrame(() => {
         const added = container.current?.querySelector("details:last-of-type");
@@ -78,7 +79,7 @@ function SectionEditor({ name, locale }: { name: Section; locale: "en" | "fr" })
   </section>;
 }
 
-export function RepeatableSections({ locale = "en", linksOnly = false }: { locale?: "en" | "fr"; linksOnly?: boolean }) {
+export function RepeatableSections({ linksOnly = false }: { linksOnly?: boolean }) {
   const names: Section[] = linksOnly ? ["basics.links"] : ["education", "experience", "projects", "languages", "certifications"];
-  return <div className="space-y-8">{names.map((name) => <SectionEditor key={name} name={name} locale={locale} />)}</div>;
+  return <div className="space-y-8">{names.map((name) => <SectionEditor key={name} name={name} />)}</div>;
 }
