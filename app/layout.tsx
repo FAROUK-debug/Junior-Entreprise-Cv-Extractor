@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist_Mono, Figtree } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { HtmlLang } from "@/components/site/html-lang";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -28,9 +31,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${clubFont.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">{children}</div>
-        <SiteFooter />
+        {/* The language comes from a cookie (S1-14), so everything that shows text sits inside
+            <Suspense> (Cache Components). NextIntlClientProvider passes the texts to client components. */}
+        <Suspense fallback={null}>
+          <NextIntlClientProvider>
+            <HtmlLang />
+            <SiteHeader />
+            <div className="flex flex-1 flex-col">{children}</div>
+            <SiteFooter />
+          </NextIntlClientProvider>
+        </Suspense>
         <Toaster />
       </body>
     </html>

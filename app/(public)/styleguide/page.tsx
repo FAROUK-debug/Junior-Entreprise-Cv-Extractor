@@ -20,10 +20,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { PageContainer } from "@/components/site/page-container";
-import en from "@/messages/en.json";
+import { getTranslations } from "next-intl/server";
 import { ToastDemo } from "./toast-demo";
 
-const t = en.styleguide;
 
 const colours = [
   ["primary", "bg-primary"],
@@ -45,15 +44,16 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-export default function StyleguidePage() {
+export default async function StyleguidePage() {
+  const t = await getTranslations("styleguide");
   return (
     <PageContainer className="gap-10">
       <header className="flex flex-col gap-1">
-        <h1 className="font-heading text-2xl font-semibold">{t.title}</h1>
-        <p className="text-muted-foreground">{t.intro}</p>
+        <h1 className="font-heading text-2xl font-semibold">{t("title")}</h1>
+        <p className="text-muted-foreground">{t("intro")}</p>
       </header>
 
-      <Section title={t.colours}>
+      <Section title={t("colours")}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {colours.map(([name, className]) => (
             <div key={name} className="flex flex-col gap-1.5">
@@ -64,13 +64,13 @@ export default function StyleguidePage() {
         </div>
       </Section>
 
-      <Section title={t.typography}>
-        <p className="font-heading text-3xl font-semibold">{t.headingSample}</p>
-        <p>{t.bodySample}</p>
-        <p className="text-sm text-muted-foreground">{t.bodySample}</p>
+      <Section title={t("typography")}>
+        <p className="font-heading text-3xl font-semibold">{t("headingSample")}</p>
+        <p>{t("bodySample")}</p>
+        <p className="text-sm text-muted-foreground">{t("bodySample")}</p>
       </Section>
 
-      <Section title={t.buttons}>
+      <Section title={t("buttons")}>
         <div className="flex flex-wrap gap-2">
           <Button>default</Button>
           <Button variant="secondary">secondary</Button>
@@ -88,84 +88,84 @@ export default function StyleguidePage() {
         </div>
       </Section>
 
-      <Section title={t.forms}>
+      <Section title={t("forms")}>
         <div className="grid max-w-md gap-4">
           <div className="grid gap-1.5">
-            <Label htmlFor="sg-email">{t.emailLabel}</Label>
-            <Input id="sg-email" type="email" placeholder={t.emailPlaceholder} />
+            <Label htmlFor="sg-email">{t("emailLabel")}</Label>
+            <Input id="sg-email" type="email" placeholder={t("emailPlaceholder")} />
           </div>
           <div className="grid gap-1.5">
-            <Label htmlFor="sg-message">{t.messageLabel}</Label>
-            <Textarea id="sg-message" placeholder={t.messagePlaceholder} />
+            <Label htmlFor="sg-message">{t("messageLabel")}</Label>
+            <Textarea id="sg-message" placeholder={t("messagePlaceholder")} />
           </div>
           <div className="grid gap-1.5">
-            <Label>{t.lookingForLabel}</Label>
+            <Label>{t("lookingForLabel")}</Label>
             <Select>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder={t.lookingForPlaceholder} />
+                <SelectValue placeholder={t("lookingForPlaceholder")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="pfe">{t.pfe}</SelectItem>
-                <SelectItem value="internship">{t.internship}</SelectItem>
-                <SelectItem value="job">{t.job}</SelectItem>
+                <SelectItem value="pfe">{t("pfe")}</SelectItem>
+                <SelectItem value="internship">{t("internship")}</SelectItem>
+                <SelectItem value="job">{t("job")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Label className="flex items-center gap-2 font-normal">
             <Checkbox />
-            {t.consent}
+            {t("consent")}
           </Label>
         </div>
       </Section>
 
-      <Section title={t.cardsBadges}>
+      <Section title={t("cardsBadges")}>
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle>{t.cardTitle}</CardTitle>
-            <CardDescription>{t.cardDescription}</CardDescription>
+            <CardTitle>{t("cardTitle")}</CardTitle>
+            <CardDescription>{t("cardDescription")}</CardDescription>
           </CardHeader>
-          <CardContent>{t.cardBody}</CardContent>
+          <CardContent>{t("cardBody")}</CardContent>
           <CardFooter className="flex flex-wrap gap-2">
-            <Badge>{t.badgeDefault}</Badge>
-            <Badge variant="secondary">{t.badgeSecondary}</Badge>
-            <Badge variant="outline">{t.badgeOutline}</Badge>
-            <Badge variant="destructive">{t.badgeDestructive}</Badge>
+            <Badge>{t("badgeDefault")}</Badge>
+            <Badge variant="secondary">{t("badgeSecondary")}</Badge>
+            <Badge variant="outline">{t("badgeOutline")}</Badge>
+            <Badge variant="destructive">{t("badgeDestructive")}</Badge>
           </CardFooter>
         </Card>
       </Section>
 
-      <Section title={t.overlays}>
+      <Section title={t("overlays")}>
         <div className="flex flex-wrap gap-2">
           <Dialog>
-            <DialogTrigger render={<Button />}>{t.openDialog}</DialogTrigger>
+            <DialogTrigger render={<Button />}>{t("openDialog")}</DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t.dialogTitle}</DialogTitle>
-                <DialogDescription>{t.dialogDescription}</DialogDescription>
+                <DialogTitle>{t("dialogTitle")}</DialogTitle>
+                <DialogDescription>{t("dialogDescription")}</DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <DialogClose render={<Button variant="outline" />}>{t.cancel}</DialogClose>
-                <DialogClose render={<Button />}>{t.confirm}</DialogClose>
+                <DialogClose render={<Button variant="outline" />}>{t("cancel")}</DialogClose>
+                <DialogClose render={<Button />}>{t("confirm")}</DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <ToastDemo label={t.showToast} message={t.toastMessage} />
+          <ToastDemo label={t("showToast")} message={t("toastMessage")} />
         </div>
       </Section>
 
-      <Section title={t.tabs}>
+      <Section title={t("tabs")}>
         <Tabs defaultValue="one" className="max-w-md">
           <TabsList>
-            <TabsTrigger value="one">{t.tabOne}</TabsTrigger>
-            <TabsTrigger value="two">{t.tabTwo}</TabsTrigger>
+            <TabsTrigger value="one">{t("tabOne")}</TabsTrigger>
+            <TabsTrigger value="two">{t("tabTwo")}</TabsTrigger>
           </TabsList>
-          <TabsContent value="one" className="text-sm">{t.tabOneBody}</TabsContent>
-          <TabsContent value="two" className="text-sm">{t.tabTwoBody}</TabsContent>
+          <TabsContent value="one" className="text-sm">{t("tabOneBody")}</TabsContent>
+          <TabsContent value="two" className="text-sm">{t("tabTwoBody")}</TabsContent>
         </Tabs>
       </Section>
 
-      <Section title={t.layout}>
-        <p className="text-sm text-muted-foreground">{t.layoutBody}</p>
+      <Section title={t("layout")}>
+        <p className="text-sm text-muted-foreground">{t("layoutBody")}</p>
       </Section>
     </PageContainer>
   );

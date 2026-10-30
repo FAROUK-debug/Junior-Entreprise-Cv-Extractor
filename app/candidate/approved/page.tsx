@@ -6,14 +6,13 @@ import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { profileUrl, qrFileName, qrPng, QR_SIZE } from "@/lib/profile/qr";
 import { buttonVariants } from "@/components/ui/button";
-import en from "@/messages/en.json";
+import { getTranslations } from "next-intl/server";
 
-const copy = en.approved;
-
-export default function ApprovedPage() {
+export default async function ApprovedPage() {
+  const t = await getTranslations("approved");
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-6 p-6 text-center">
-      <Suspense fallback={<p role="status">{copy.loading}</p>}>
+      <Suspense fallback={<p role="status">{t("loading")}</p>}>
         <ApprovedProfile />
       </Suspense>
     </main>
@@ -21,8 +20,9 @@ export default function ApprovedPage() {
 }
 
 async function ApprovedProfile() {
+  const t = await getTranslations("approved");
   const user = await getCurrentUser();
-  if (!user || user.role !== "candidate") return <p role="alert">{copy.unauthorized}</p>;
+  if (!user || user.role !== "candidate") return <p role="alert">{t("unauthorized")}</p>;
 
   const supabase = await createClient();
   const { data: profile } = await supabase
@@ -33,24 +33,24 @@ async function ApprovedProfile() {
   if (!profile || profile.status !== "approved") {
     return (
       <>
-        <p role="status">{copy.notApproved}</p>
-        <a className={buttonVariants({ variant: "outline" })} href="/candidate/review">{copy.toReview}</a>
+        <p role="status">{t("notApproved")}</p>
+        <a className={buttonVariants({ variant: "outline" })} href="/candidate/review">{t("toReview")}</a>
       </>
     );
   }
-  if (!process.env.APP_URL) return <p role="alert">{copy.unavailable}</p>;
+  if (!process.env.APP_URL) return <p role="alert">{t("unavailable")}</p>;
 
   const png = await qrPng(profileUrl(process.env.APP_URL, profile.public_id));
   const src = `data:image/png;base64,${png.toString("base64")}`;
   return (
     <>
-      <h1 className="text-2xl font-semibold">{copy.title}</h1>
-      <p>{copy.explain}</p>
+      <h1 className="text-2xl font-semibold">{t("title")}</h1>
+      <p>{t("explain")}</p>
       {/* A data: URL, so there is no public image route to guess; next/image doesn't apply. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} width={QR_SIZE} height={QR_SIZE} alt={copy.qrAlt} className="h-auto w-full max-w-xs rounded-lg border" />
+      <img src={src} width={QR_SIZE} height={QR_SIZE} alt={t("qrAlt")} className="h-auto w-full max-w-xs rounded-lg border" />
       <a className={buttonVariants()} href={src} download={qrFileName(profile.data?.basics?.name)}>
-        {copy.download}
+        {t("download")}
       </a>
     </>
   );

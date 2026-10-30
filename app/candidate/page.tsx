@@ -1,11 +1,12 @@
 // Placeholder so everyone sees where their pages go. Replaced by the real page in its task.
-// Texts always come from messages/ (en.json + fr.json), never typed in the page. S1-14 adds the language switch.
-import en from "@/messages/en.json";
+// Texts always come from messages/ (en.json + fr.json), never typed in the page.
+import { getTranslations } from "next-intl/server";
 
-export default function CandidatePage() {
+export default async function CandidatePage() {
+  const t = await getTranslations("placeholder");
   return (
     <main className="flex flex-1 items-center justify-center p-8">
-      <p className="text-lg">{en.placeholder.candidate}</p>
+      <p className="text-lg">{t("candidate")}</p>
     </main>
   );
 }
