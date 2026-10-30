@@ -7,10 +7,13 @@ import { randomUUID } from "node:crypto";
 import { getCurrentUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { checkUpload, MAX_UPLOAD_BYTES, MIME_TYPES, type UploadError } from "@/lib/cv/upload-rules";
-import en from "@/messages/en.json";
+import { getTranslations } from "next-intl/server";
 
-const fail = (status: number, code: UploadError | "upload_failed") =>
-  Response.json({ error: code, message: en.upload.errors[code] }, { status });
+// The message is in the visitor's language (S1-14: their EN/FR choice, else their browser's).
+const fail = async (status: number, code: UploadError | "upload_failed") => {
+  const t = await getTranslations("upload.errors");
+  return Response.json({ error: code, message: t(code) }, { status });
+};
 
 export async function POST(request: Request) {
   const user = await getCurrentUser();

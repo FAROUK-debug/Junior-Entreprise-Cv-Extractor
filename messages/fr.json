@@ -1,6 +1,5 @@
 {
   "placeholder": {
-    "home": "CV Extractor — page d'accueil (S1-25)",
     "candidate": "Espace candidat — inscription, dépôt et vérification du CV ici (S1-26 → S1-32)",
     "company": "Espace entreprise — CV, recherche et scan QR ici (Sprint 2)",
     "admin": "Tableau de bord admin — entreprises et statistiques ici (Sprint 2)"
@@ -36,5 +35,124 @@
     "explain": "Montrez ce code QR aux recruteurs pendant le salon.",
     "qrAlt": "Code QR qui ouvre votre profil",
     "download": "Télécharger mon code QR (PNG)"
+  },
+  "site": {
+    "clubName": "Pristini Junior Entreprise",
+    "appName": "CV Extractor",
+    "home": "Accueil",
+    "privacy": "Politique de confidentialité",
+    "footerNote": "La plateforme CV du salon de l'emploi",
+    "userMenu": {
+      "open": "Ouvrir le menu du compte",
+      "signedInAs": "Connecté en tant que",
+      "mySpace": "Mon espace",
+      "noRole": "aucun rôle"
+    },
+    "roles": {
+      "candidate": "Candidat",
+      "company": "Entreprise",
+      "admin": "Admin"
+    },
+    "language": {
+      "label": "Langue",
+      "en": "English",
+      "fr": "Français"
+    }
+  },
+  "styleguide": {
+    "title": "Guide de style",
+    "intro": "Tous les composants partagés, au style du club. Copiez-les d'ici au lieu de les réécrire.",
+    "colours": "Couleurs",
+    "typography": "Typographie",
+    "headingSample": "Titre",
+    "bodySample": "Texte courant : les candidats déposent un CV, l'IA remplit leur profil.",
+    "buttons": "Boutons",
+    "forms": "Champs de formulaire",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "nom@exemple.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Écrivez quelques lignes…",
+    "lookingForLabel": "Vous cherchez",
+    "lookingForPlaceholder": "Choisir…",
+    "pfe": "PFE",
+    "internship": "Stage",
+    "job": "Emploi",
+    "consent": "J'accepte le texte de consentement",
+    "cardsBadges": "Cartes et badges",
+    "cardTitle": "Titre de la carte",
+    "cardDescription": "Une courte description sous le titre.",
+    "cardBody": "Le contenu de la carte va ici.",
+    "badgeDefault": "Validé",
+    "badgeSecondary": "Brouillon",
+    "badgeOutline": "En attente",
+    "badgeDestructive": "Échec",
+    "overlays": "Fenêtre et notification",
+    "openDialog": "Ouvrir la fenêtre",
+    "dialogTitle": "Titre de la fenêtre",
+    "dialogDescription": "Utilisez une fenêtre pour une question courte qui demande une réponse.",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "showToast": "Afficher une notification",
+    "toastMessage": "Votre profil a été enregistré.",
+    "tabs": "Onglets",
+    "tabOne": "Profil",
+    "tabTwo": "Paramètres",
+    "tabOneBody": "Contenu du premier onglet.",
+    "tabTwoBody": "Contenu du second onglet.",
+    "layout": "Mise en page",
+    "layoutBody": "SiteHeader et SiteFooter sont dans app/layout.tsx : ils apparaissent sur toutes les pages. Mettez le contenu de chaque page dans PageContainer."
+  },
+  "landing": {
+    "eyebrow": "Salon de l'emploi Pristini JE · mercredi 11 novembre 2026",
+    "title": "Votre CV prêt pour les recruteurs en quelques minutes",
+    "subtitle": "Déposez votre CV, notre IA remplit votre profil, vous le vérifiez et vous recevez un code QR à montrer au salon.",
+    "candidate": {
+      "title": "Je suis candidat",
+      "text": "Vous cherchez un PFE, un stage ou un emploi ? Créez votre profil à partir de votre CV.",
+      "cta": "Déposer mon CV"
+    },
+    "company": {
+      "title": "Je suis une entreprise",
+      "text": "Recherchez les profils des candidats et scannez leurs codes QR au salon. Le club vous envoie vos identifiants.",
+      "cta": "Connexion entreprise"
+    },
+    "howTitle": "Comment ça marche",
+    "steps": [
+      {
+        "title": "Déposez votre CV",
+        "text": "PDF, JPG ou PNG, jusqu'à 5 Mo. Une photo prise avec votre téléphone fonctionne aussi."
+      },
+      {
+        "title": "Vérifiez votre profil",
+        "text": "Notre IA le remplit pour vous. Corrigez ce qui manque, puis validez-le. Rien n'est montré aux recruteurs avant."
+      },
+      {
+        "title": "Montrez votre code QR",
+        "text": "Au salon, les recruteurs le scannent et ouvrent votre profil. Votre fichier CV est supprimé après lecture."
+      }
+    ]
+  },
+  "processing": {
+    "title": "Nous lisons votre CV",
+    "queued": "Votre CV est dans la file d'attente.",
+    "position": "Vous êtes numéro {position} dans la file",
+    "queuedHint": "Notre IA lit un CV à la fois. Gardez cette page ouverte, elle se met à jour toute seule.",
+    "processing": "Notre IA lit votre CV…",
+    "processingHint": "Cela prend en général moins d'une minute.",
+    "done": "Votre profil est prêt !",
+    "doneHint": "Nous vous emmenons vers votre profil pour le vérifier…",
+    "goToReview": "Vérifier mon profil",
+    "failed": "Nous n'avons pas pu lire votre CV",
+    "failedDefault": "Un problème est survenu pendant la lecture de votre CV. Veuillez réessayer.",
+    "tryAgain": "Essayer un autre fichier",
+    "slow": "Cela prend plus de temps que d'habitude. Vous pouvez continuer à attendre : votre place est gardée.",
+    "notFound": "Nous ne trouvons pas ce CV. Il appartient peut-être à un autre compte.",
+    "notLoggedIn": "Connectez-vous avec votre compte candidat pour suivre votre CV.",
+    "offline": "Connexion perdue. Nouvel essai…",
+    "steps": {
+      "queued": "En attente",
+      "processing": "Lecture",
+      "done": "Prêt"
+    }
   }
 }

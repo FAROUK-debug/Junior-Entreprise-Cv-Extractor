@@ -1,6 +1,5 @@
 {
   "placeholder": {
-    "home": "CV Extractor — landing page (S1-25)",
     "candidate": "Candidate space — sign-up, upload and review go here (S1-26 → S1-32)",
     "company": "Company space — CVs, search and QR scan go here (Sprint 2)",
     "admin": "Admin dashboard — companies and statistics go here (Sprint 2)"
@@ -36,5 +35,124 @@
     "explain": "Show this QR code to recruiters at the fair.",
     "qrAlt": "QR code that opens your profile",
     "download": "Download my QR code (PNG)"
+  },
+  "site": {
+    "clubName": "Pristini Junior Entreprise",
+    "appName": "CV Extractor",
+    "home": "Home",
+    "privacy": "Privacy notice",
+    "footerNote": "The job-fair CV platform",
+    "userMenu": {
+      "open": "Open the account menu",
+      "signedInAs": "Signed in as",
+      "mySpace": "My space",
+      "noRole": "no role"
+    },
+    "roles": {
+      "candidate": "Candidate",
+      "company": "Company",
+      "admin": "Admin"
+    },
+    "language": {
+      "label": "Language",
+      "en": "English",
+      "fr": "Français"
+    }
+  },
+  "styleguide": {
+    "title": "Style guide",
+    "intro": "Every shared component in the club style. Copy from here instead of rewriting.",
+    "colours": "Colours",
+    "typography": "Typography",
+    "headingSample": "Heading",
+    "bodySample": "Body text: candidates upload a CV, the AI fills in their profile.",
+    "buttons": "Buttons",
+    "forms": "Form fields",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Write a few lines…",
+    "lookingForLabel": "Looking for",
+    "lookingForPlaceholder": "Choose…",
+    "pfe": "PFE",
+    "internship": "Internship",
+    "job": "Job",
+    "consent": "I accept the consent text",
+    "cardsBadges": "Cards and badges",
+    "cardTitle": "Card title",
+    "cardDescription": "A short description under the title.",
+    "cardBody": "Card content goes here.",
+    "badgeDefault": "Approved",
+    "badgeSecondary": "Draft",
+    "badgeOutline": "Queued",
+    "badgeDestructive": "Failed",
+    "overlays": "Dialog and toast",
+    "openDialog": "Open the dialog",
+    "dialogTitle": "Dialog title",
+    "dialogDescription": "Use a dialog for a short question that needs an answer.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "showToast": "Show a toast",
+    "toastMessage": "Your profile has been saved.",
+    "tabs": "Tabs",
+    "tabOne": "Profile",
+    "tabTwo": "Settings",
+    "tabOneBody": "Content of the first tab.",
+    "tabTwoBody": "Content of the second tab.",
+    "layout": "Layout",
+    "layoutBody": "SiteHeader and SiteFooter sit in app/layout.tsx, so they appear on every page. Wrap page content in PageContainer."
+  },
+  "landing": {
+    "eyebrow": "Pristini JE job fair · Wednesday 11 November 2026",
+    "title": "Your CV, ready for recruiters in minutes",
+    "subtitle": "Upload your CV, our AI fills in your profile, you check it and get a QR code to show at the fair.",
+    "candidate": {
+      "title": "I'm a candidate",
+      "text": "Looking for a PFE, an internship or a job? Create your profile from your CV.",
+      "cta": "Upload my CV"
+    },
+    "company": {
+      "title": "I'm a company",
+      "text": "Search the candidates' profiles and scan their QR codes at the fair. The club sends you your login.",
+      "cta": "Company login"
+    },
+    "howTitle": "How it works",
+    "steps": [
+      {
+        "title": "Upload your CV",
+        "text": "PDF, JPG or PNG, up to 5 MB. A photo from your phone works too."
+      },
+      {
+        "title": "Check your profile",
+        "text": "Our AI fills it in for you. Fix anything it missed, then approve it. Nothing is shown to recruiters before you do."
+      },
+      {
+        "title": "Show your QR code",
+        "text": "At the fair, recruiters scan it and open your profile. Your CV file is deleted after reading."
+      }
+    ]
+  },
+  "processing": {
+    "title": "We are reading your CV",
+    "queued": "Your CV is in the queue.",
+    "position": "You're number {position} in line",
+    "queuedHint": "Our AI reads one CV at a time. Keep this page open, it updates by itself.",
+    "processing": "Our AI is reading your CV…",
+    "processingHint": "This usually takes less than a minute.",
+    "done": "Your profile is ready!",
+    "doneHint": "Taking you to your profile so you can check it…",
+    "goToReview": "Check my profile",
+    "failed": "We couldn't read your CV",
+    "failedDefault": "Something went wrong while reading your CV. Please try again.",
+    "tryAgain": "Try another file",
+    "slow": "This is taking longer than usual. You can keep waiting: your place is kept.",
+    "notFound": "We can't find this CV. It may belong to another account.",
+    "notLoggedIn": "Log in with your candidate account to follow your CV.",
+    "offline": "Connection lost. Trying again…",
+    "steps": {
+      "queued": "In the queue",
+      "processing": "Reading",
+      "done": "Ready"
+    }
   }
 }
