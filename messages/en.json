@@ -17,10 +17,26 @@
     "noAccount": "New here?",
     "signupLink": "Create an account",
     "pages": {
-      "signup": { "title": "Create your candidate account", "description": "Save your profile and get ready to meet your next opportunity.", "submit": "Create account" },
-      "login": { "title": "Welcome back", "description": "Log in to upload your CV or manage your profile.", "submit": "Log in" },
-      "forgot": { "title": "Forgot your password?", "description": "Enter your email and we’ll send you a link to choose a new password.", "submit": "Send reset link" },
-      "reset": { "title": "Choose a new password", "description": "Open the link from your reset email, then enter your new password below.", "submit": "Save new password" }
+      "signup": {
+        "title": "Create your candidate account",
+        "description": "Save your profile and get ready to meet your next opportunity.",
+        "submit": "Create account"
+      },
+      "login": {
+        "title": "Welcome back",
+        "description": "Log in to upload your CV or manage your profile.",
+        "submit": "Log in"
+      },
+      "forgot": {
+        "title": "Forgot your password?",
+        "description": "Enter your email and we’ll send you a link to choose a new password.",
+        "submit": "Send reset link"
+      },
+      "reset": {
+        "title": "Choose a new password",
+        "description": "Open the link from your reset email, then enter your new password below.",
+        "submit": "Save new password"
+      }
     },
     "messages": {
       "checkEmail": "Check your email to confirm your account. Then come back and log in.",
@@ -45,7 +61,8 @@
   "placeholder": {
     "candidate": "Candidate space — sign-up, upload and review go here (S1-26 → S1-32)",
     "company": "Company space — CVs, search and QR scan go here (Sprint 2)",
-    "admin": "Admin dashboard — companies and statistics go here (Sprint 2)"
+    "admin": "Admin dashboard — companies and statistics go here (Sprint 2)",
+    "home": "CV Extractor — landing page (S1-25)"
   },
   "whoami": {
     "loggedInAs": "Logged in as",
@@ -65,8 +82,52 @@
       "word_file": "This is a Word file. Please export it as PDF first, then upload the PDF.",
       "bad_type": "This file type isn't supported. Please upload a PDF, JPG or PNG.",
       "daily_limit": "You have reached today's limit of 5 uploads. Please try again tomorrow.",
-      "upload_failed": "Your CV couldn't be saved. Please try again in a moment."
-    }
+      "upload_failed": "Your CV couldn't be saved. Please try again in a moment.",
+      "wrongType": "This file type isn’t supported. Choose a PDF, JPG or PNG file.",
+      "tooBig": "Your CV is too large. Choose a file no larger than 5 MB.",
+      "emptyFile": "This file is empty. Choose another CV.",
+      "multipleFiles": "Please choose just one CV at a time.",
+      "noFile": "Choose a CV to upload.",
+      "noChoice": "Choose PFE, Internship or Job to continue.",
+      "noConsent": "Your consent is required before we can process your CV.",
+      "dailyLimit": "You’ve reached today’s upload limit. Please try again tomorrow.",
+      "unauthorized": "Your session has expired or you don’t have access. Please sign in again before uploading.",
+      "unavailable": "CV uploads are temporarily unavailable. Please try again later.",
+      "network": "The upload couldn’t finish. Check your connection and try again. If it was already received, check your profile before retrying.",
+      "failed": "We couldn’t upload your CV. Please try again."
+    },
+    "pageTitle": "Upload your CV · CV Extractor",
+    "brand": "CV Extractor",
+    "organizer": "Pristini Junior Entreprise",
+    "progressLabel": "Your profile, step by step",
+    "steps": {
+      "upload": "Upload",
+      "review": "Review",
+      "profile": "My profile"
+    },
+    "title": "Your next opportunity starts here",
+    "description": "Upload your CV and we’ll help fill in your profile. You’ll review everything before sharing it with recruiters.",
+    "lookingFor": "I’m looking for",
+    "choices": {
+      "pfe": "PFE",
+      "internship": "Internship",
+      "job": "Job"
+    },
+    "cv": "Your CV",
+    "dropTitle": "Drop your CV here",
+    "dropDescription": "Or choose a file from your device.",
+    "chooseFile": "Choose a file",
+    "takePhoto": "Take a photo",
+    "formats": "PDF, JPG or PNG, max 5 MB",
+    "kb": "KB",
+    "removeFile": "Remove selected CV",
+    "consent": "I agree to have my CV read by Google Gemini (free tier), which may use it to improve Google’s models, and my profile stored on this platform. Once I approve it, companies registered for the fair can see my full profile, including my contact details. I can delete it at any time from My profile.",
+    "privacy": "Read the privacy notice (opens in a new tab)",
+    "submit": "Upload my CV",
+    "uploading": "Uploading your CV…",
+    "wait": "Please keep this page open while your CV uploads.",
+    "requirements": "Choose an opportunity, select a valid CV and give your consent to continue.",
+    "reassurance": "Nothing is shown to recruiters before you approve your profile. Your original CV is deleted after processing."
   },
   "approved": {
     "loading": "Loading your QR code…",
