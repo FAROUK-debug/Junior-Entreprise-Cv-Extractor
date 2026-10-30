@@ -50,24 +50,24 @@
 
 /* Club colours and font (S1-11). Change them here only: every component reads these tokens. */
 :root {
-  --background: oklch(0.99 0.003 260);
-  --foreground: oklch(0.2 0.03 262);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.03 262);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.03 262);
-  --primary: oklch(0.42 0.15 262);
-  --primary-foreground: oklch(0.98 0.005 262);
-  --secondary: oklch(0.95 0.015 262);
-  --secondary-foreground: oklch(0.3 0.08 262);
-  --muted: oklch(0.96 0.008 262);
-  --muted-foreground: oklch(0.5 0.03 262);
-  --accent: oklch(0.93 0.05 75);
-  --accent-foreground: oklch(0.38 0.09 60);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.012 262);
-  --input: oklch(0.91 0.012 262);
-  --ring: oklch(0.55 0.15 262);
+  --background: #F5F7FA;
+  --foreground: #141B2D;
+  --card: #FFFFFF;
+  --card-foreground: #141B2D;
+  --popover: #FFFFFF;
+  --popover-foreground: #141B2D;
+  --primary: #0B5BD3;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8EEF7;
+  --secondary-foreground: #141B2D;
+  --muted: #EEF1F6;
+  --muted-foreground: #556074;
+  --accent: #F4B400;
+  --accent-foreground: #141B2D;
+  --destructive: #C42B2B;
+  --border: #D9DFE8;
+  --input: #7D879A;
+  --ring: #0B5BD3;
   --chart-1: oklch(0.42 0.15 262);
   --chart-2: oklch(0.75 0.15 75);
   --chart-3: oklch(0.6 0.12 200);
