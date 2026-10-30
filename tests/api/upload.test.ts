@@ -127,12 +127,13 @@ test("the owner sees the job's status and queue position", async () => {
   assert.ok(a.body.position >= 1);
 });
 
-test("a failed job shows its message, and no position", async () => {
+test("a failed job gives the worker's reason as a code the screen translates, and no position", async () => {
+  // The exact sentence the worker writes (worker/cv_worker/jobs.py, FAILED_TO_READ).
   const { data: job } = await admin.from("extraction_jobs")
-    .insert({ user_id: bob.id, kind: "extract", status: "failed", error_message: "We couldn't read this file." })
+    .insert({ user_id: bob.id, kind: "extract", status: "failed", error_message: "We couldn't read this file. Try a PDF export of your CV." })
     .select("id").single();
   const r = await getJob(bob.cookie, job!.id);
-  assert.deepEqual(r.body, { status: "failed", position: null, error: "We couldn't read this file." });
+  assert.deepEqual(r.body, { status: "failed", position: null, error: "failed_to_read" });
 });
 
 test("another candidate asking for that job id gets a 404", async () => {

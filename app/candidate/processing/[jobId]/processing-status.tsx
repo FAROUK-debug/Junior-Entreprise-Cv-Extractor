@@ -11,9 +11,13 @@ const POLL_MS = 3000;
 // Rule 5: nobody waits forever on a spinner. After this, the page says it's slow (and keeps going).
 const SLOW_AFTER_MS = 3 * 60 * 1000;
 const REVIEW_URL = "/candidate/review";
-const UPLOAD_URL = "/candidate";
+const UPLOAD_URL = "/candidate/upload";
 
 type JobStatus = "queued" | "processing" | "done" | "failed";
+// The job route sends a code (lib/cv/job-errors.ts); each one has its text in messages/ → processing.errors.
+const jobErrors = ["failed_to_read", "try_later", "wrong_type"] as const;
+const isJobError = (code: string | null): code is (typeof jobErrors)[number] =>
+  (jobErrors as readonly (string | null)[]).includes(code);
 type State =
   | { kind: "loading" }
   | { kind: JobStatus; position: number | null; error: string | null }
@@ -79,7 +83,7 @@ export function ProcessingStatus() {
       <Message
         icon={<CircleAlertIcon className="size-6 text-destructive" />}
         title={t("failed")}
-        description={state.error || t("failedDefault")}
+        description={isJobError(state.error) ? t(`errors.${state.error}`) : t("failedDefault")}
         action={<a className={buttonVariants()} href={UPLOAD_URL}>{t("tryAgain")}</a>}
       />
     );
