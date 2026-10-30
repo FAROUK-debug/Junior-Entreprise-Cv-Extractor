@@ -6,9 +6,7 @@ import { CheckCircle2Icon, CircleAlertIcon, FileTextIcon, Loader2Icon } from "lu
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import en from "@/messages/en.json";
-
-const t = en.processing;
+import { useTranslations } from "next-intl";
 const POLL_MS = 3000;
 // Rule 5: nobody waits forever on a spinner. After this, the page says it's slow (and keeps going).
 const SLOW_AFTER_MS = 3 * 60 * 1000;
@@ -22,6 +20,7 @@ type State =
   | { kind: "not_found" | "not_logged_in" };
 
 export function ProcessingStatus() {
+  const t = useTranslations("processing");
   const { jobId } = useParams<{ jobId: string }>();
   const router = useRouter();
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -70,7 +69,7 @@ export function ProcessingStatus() {
     return (
       <Message
         icon={<CircleAlertIcon className="size-6 text-destructive" />}
-        title={state.kind === "not_found" ? t.notFound : t.notLoggedIn}
+        title={state.kind === "not_found" ? t("notFound") : t("notLoggedIn")}
       />
     );
   }
@@ -79,9 +78,9 @@ export function ProcessingStatus() {
     return (
       <Message
         icon={<CircleAlertIcon className="size-6 text-destructive" />}
-        title={t.failed}
-        description={state.error || t.failedDefault}
-        action={<a className={buttonVariants()} href={UPLOAD_URL}>{t.tryAgain}</a>}
+        title={t("failed")}
+        description={state.error || t("failedDefault")}
+        action={<a className={buttonVariants()} href={UPLOAD_URL}>{t("tryAgain")}</a>}
       />
     );
   }
@@ -90,9 +89,9 @@ export function ProcessingStatus() {
     return (
       <Message
         icon={<CheckCircle2Icon className="size-6 text-primary" />}
-        title={t.done}
-        description={t.doneHint}
-        action={<a className={buttonVariants({ variant: "outline" })} href={REVIEW_URL}>{t.goToReview}</a>}
+        title={t("done")}
+        description={t("doneHint")}
+        action={<a className={buttonVariants({ variant: "outline" })} href={REVIEW_URL}>{t("goToReview")}</a>}
         step="done"
       />
     );
@@ -102,18 +101,18 @@ export function ProcessingStatus() {
   return (
     <Message
       icon={queued ? <QueueAnimation /> : <Loader2Icon className="size-6 animate-spin text-primary" />}
-      title={state.kind === "loading" ? t.title : queued ? t.queued : t.processing}
-      description={queued ? t.queuedHint : t.processingHint}
+      title={state.kind === "loading" ? t("title") : queued ? t("queued") : t("processing")}
+      description={queued ? t("queuedHint") : t("processingHint")}
       step={queued ? "queued" : state.kind === "processing" ? "processing" : undefined}
       extra={
         <>
           {queued && state.position !== null && (
             <p className="text-2xl font-semibold" aria-live="polite">
-              {t.position.replace("{position}", String(state.position))}
+              {t("position", { position: state.position })}
             </p>
           )}
-          {offline && <p className="text-sm text-muted-foreground">{t.offline}</p>}
-          {slow && <p className="text-sm text-muted-foreground">{t.slow}</p>}
+          {offline && <p className="text-sm text-muted-foreground">{t("offline")}</p>}
+          {slow && <p className="text-sm text-muted-foreground">{t("slow")}</p>}
         </>
       }
     />
@@ -154,6 +153,7 @@ function Message({
   extra?: React.ReactNode;
   step?: (typeof steps)[number];
 }) {
+  const t = useTranslations("processing");
   return (
     <Card>
       <CardHeader className="items-center text-center">
@@ -167,7 +167,7 @@ function Message({
             <div className="flex flex-wrap justify-center gap-2">
               {steps.map((s) => (
                 <Badge key={s} variant={steps.indexOf(s) <= steps.indexOf(step) ? "default" : "outline"}>
-                  {t.steps[s]}
+                  {t(`steps.${s}`)}
                 </Badge>
               ))}
             </div>

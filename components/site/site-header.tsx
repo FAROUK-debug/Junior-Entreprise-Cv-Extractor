@@ -3,22 +3,23 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { getCurrentUser } from "@/lib/auth";
-import en from "@/messages/en.json";
+import { getTranslations } from "next-intl/server";
+import { LanguageSwitch } from "./language-switch";
 import { UserMenu } from "./user-menu";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const t = await getTranslations("site");
   return (
     <header className="border-b bg-card">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-heading font-semibold" aria-label={en.site.home}>
+        <Link href="/" className="flex items-center gap-2 font-heading font-semibold" aria-label={t("home")}>
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm text-primary-foreground">
             JE
           </span>
-          <span className="hidden sm:inline">{en.site.appName}</span>
+          <span className="hidden sm:inline">{t("appName")}</span>
         </Link>
         <div className="ml-auto flex items-center gap-2">
-          {/* The language switch goes here (S1-14). */}
-          <div data-slot="language-switch" />
+          <LanguageSwitch />
           <Suspense fallback={null}>
             <CurrentUserMenu />
           </Suspense>

@@ -4,13 +4,14 @@
 // The job id comes from the URL, so the status part sits inside <Suspense> (Cache Components).
 import { Suspense } from "react";
 import { PageContainer } from "@/components/site/page-container";
-import en from "@/messages/en.json";
+import { getTranslations } from "next-intl/server";
 import { ProcessingStatus } from "./processing-status";
 
-export default function ProcessingPage() {
+export default async function ProcessingPage() {
+  const t = await getTranslations("processing");
   return (
     <PageContainer className="max-w-xl justify-center">
-      <Suspense fallback={<p className="text-center text-muted-foreground">{en.processing.title}</p>}>
+      <Suspense fallback={<p className="text-center text-muted-foreground">{t("title")}</p>}>
         <ProcessingStatus />
       </Suspense>
     </PageContainer>

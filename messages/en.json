@@ -52,6 +52,11 @@
       "candidate": "Candidate",
       "company": "Company",
       "admin": "Admin"
+    },
+    "language": {
+      "label": "Language",
+      "en": "English",
+      "fr": "Français"
     }
   },
   "styleguide": {
