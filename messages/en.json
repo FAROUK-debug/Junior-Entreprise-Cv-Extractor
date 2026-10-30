@@ -1,10 +1,5 @@
 {
   "candidateAuth": {
-    "brand": "CV Extractor",
-    "organizer": "Pristini Junior Entreprise",
-    "language": "Language",
-    "english": "English",
-    "french": "Français",
     "email": "Email address",
     "password": "Password",
     "newPassword": "New password",
@@ -97,8 +92,6 @@
       "failed": "We couldn’t upload your CV. Please try again."
     },
     "pageTitle": "Upload your CV · CV Extractor",
-    "brand": "CV Extractor",
-    "organizer": "Pristini Junior Entreprise",
     "progressLabel": "Your profile, step by step",
     "steps": {
       "upload": "Upload",
@@ -121,7 +114,7 @@
     "formats": "PDF, JPG or PNG, max 5 MB",
     "kb": "KB",
     "removeFile": "Remove selected CV",
-    "consent": "I agree to have my CV read by Google Gemini (free tier), which may use it to improve Google’s models, and my profile stored on this platform. Once I approve it, companies registered for the fair can see my full profile, including my contact details. I can delete it at any time from My profile.",
+    "consent": "I agree to create my profile on this platform. Once I approve it, companies registered for the job fair can see my full profile, including my contact details. I understand that my CV is read by Google Gemini (free tier, which may use it to improve Google's AI models) to build my profile, and that I can delete my data at any time.",
     "privacy": "Read the privacy notice (opens in a new tab)",
     "submit": "Upload my CV",
     "uploading": "Uploading your CV…",
@@ -150,7 +143,8 @@
       "open": "Open the account menu",
       "signedInAs": "Signed in as",
       "mySpace": "My space",
-      "noRole": "no role"
+      "noRole": "no role",
+      "logOut": "Log out"
     },
     "roles": {
       "candidate": "Candidate",
@@ -240,7 +234,7 @@
     "title": "We are reading your CV",
     "queued": "Your CV is in the queue.",
     "position": "You're number {position} in line",
-    "queuedHint": "Our AI reads one CV at a time. Keep this page open, it updates by itself.",
+    "queuedHint": "Our AI reads the CVs one after the other. You can leave this page: your CV is kept, and you'll find it here next time you log in.",
     "processing": "Our AI is reading your CV…",
     "processingHint": "This usually takes less than a minute.",
     "done": "Your profile is ready!",
@@ -257,6 +251,11 @@
       "queued": "In the queue",
       "processing": "Reading",
       "done": "Ready"
+    },
+    "errors": {
+      "failed_to_read": "We couldn't read this file. Try a PDF export of your CV.",
+      "try_later": "Our AI is very busy right now. Please try again in a few minutes.",
+      "wrong_type": "This file type isn't supported. Upload a PDF, JPG or PNG file."
     }
   },
   "review": {
@@ -289,13 +288,13 @@
     "conflict": "Your draft changed elsewhere or was approved. Reload the page before saving again.",
     "approvalFailed": "Draft saved, but approval failed. Please try again.",
     "fields": {
-      "basics.name": "Full name",
-      "basics.email": "Email",
-      "basics.phone": "Phone",
-      "basics.city": "City",
-      "basics.country": "Country",
-      "basics.headline": "Headline",
-      "basics.summary": "Summary",
+      "basics_name": "Full name",
+      "basics_email": "Email",
+      "basics_phone": "Phone",
+      "basics_city": "City",
+      "basics_country": "Country",
+      "basics_headline": "Headline",
+      "basics_summary": "Summary",
       "availability": "Availability"
     },
     "domains": {
@@ -336,7 +335,7 @@
       "projects": "Projects",
       "languages": "Languages",
       "certifications": "Certifications",
-      "basics.links": "Professional links"
+      "basics_links": "Professional links"
     },
     "fields": {
       "label": "Link label",
@@ -389,5 +388,32 @@
       "basic": "Basic"
     },
     "unknown": "Not specified"
+  },
+  "privacy": {
+    "pageTitle": "Privacy notice",
+    "title": "How we handle your data",
+    "intro": "We built this platform to connect you with the recruiters at the Pristini JE job fair. We handle your personal information (your name, phone number, email and career history), so here is exactly what happens when you upload your CV.",
+    "sections": [
+      {
+        "title": "1. How your CV is read (AI extraction)",
+        "text": "Instead of making you fill in long forms, we send your CV to an AI service, Google Gemini, which reads it and fills in your profile. We use Gemini's free tier, so Google may use your CV to train and improve its AI models."
+      },
+      {
+        "title": "2. Your CV file is not kept",
+        "text": "The file you upload is deleted as soon as the AI has read it, or if reading fails. Only the profile built from it is kept. When a recruiter downloads your CV, they get a PDF made from your profile, never your original file."
+      },
+      {
+        "title": "3. Who can see your profile",
+        "text": "Nobody sees anything before you check and approve your profile. Once you approve it, every company registered for the fair can see your full profile, including your phone number and email, so they can contact you for interviews. Besides those companies, the only service that receives your CV is Google Gemini, which reads it. We never sell your data."
+      },
+      {
+        "title": "4. How long it is kept, and how to delete it",
+        "text": "Your profile is kept for this job fair. You can delete your profile and your account at any time from \"My profile\"."
+      }
+    ],
+    "contact": {
+      "title": "5. Your rights and who to contact",
+      "text": "Under the Tunisian personal data protection law (Organic Law No. 2004-63 of 27 July 2004), you can access, correct or delete your personal information at any time. Questions? Write to the Pristini Junior Entreprise team at {email}."
+    }
   }
 }

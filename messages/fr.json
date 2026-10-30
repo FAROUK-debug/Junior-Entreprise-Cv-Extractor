@@ -1,10 +1,5 @@
 {
   "candidateAuth": {
-    "brand": "CV Extractor",
-    "organizer": "Pristini Junior Entreprise",
-    "language": "Langue",
-    "english": "English",
-    "french": "Français",
     "email": "Adresse e-mail",
     "password": "Mot de passe",
     "newPassword": "Nouveau mot de passe",
@@ -97,8 +92,6 @@
       "failed": "Impossible d’importer votre CV. Veuillez réessayer."
     },
     "pageTitle": "Importer votre CV · CV Extractor",
-    "brand": "CV Extractor",
-    "organizer": "Pristini Junior Entreprise",
     "progressLabel": "Votre profil, étape par étape",
     "steps": {
       "upload": "Importer",
@@ -121,7 +114,7 @@
     "formats": "PDF, JPG ou PNG, 5 Mo maximum",
     "kb": "Ko",
     "removeFile": "Retirer le CV sélectionné",
-    "consent": "J’accepte que mon CV soit lu par Google Gemini (offre gratuite), qui peut l’utiliser pour améliorer les modèles de Google, et que mon profil soit conservé sur cette plateforme. Après mon approbation, les entreprises inscrites au salon pourront voir mon profil complet, y compris mes coordonnées. Je peux le supprimer à tout moment depuis Mon profil.",
+    "consent": "J'accepte de créer mon profil sur la plateforme. Une fois que je l'ai validé, les entreprises inscrites au salon peuvent consulter l'intégralité de mon profil, y compris mes coordonnées. Je comprends que mon CV est lu par Google Gemini (version gratuite, qui peut utiliser ces données pour améliorer les modèles d'IA de Google) pour créer mon profil, et que je peux supprimer mes données à tout moment.",
     "privacy": "Lire la politique de confidentialité (nouvel onglet)",
     "submit": "Importer mon CV",
     "uploading": "Importation de votre CV…",
@@ -150,7 +143,8 @@
       "open": "Ouvrir le menu du compte",
       "signedInAs": "Connecté en tant que",
       "mySpace": "Mon espace",
-      "noRole": "aucun rôle"
+      "noRole": "aucun rôle",
+      "logOut": "Se déconnecter"
     },
     "roles": {
       "candidate": "Candidat",
@@ -240,7 +234,7 @@
     "title": "Nous lisons votre CV",
     "queued": "Votre CV est dans la file d'attente.",
     "position": "Vous êtes numéro {position} dans la file",
-    "queuedHint": "Notre IA lit un CV à la fois. Gardez cette page ouverte, elle se met à jour toute seule.",
+    "queuedHint": "Notre IA lit les CV les uns après les autres. Vous pouvez quitter cette page : votre CV est gardé, et vous le retrouverez ici à votre prochaine connexion.",
     "processing": "Notre IA lit votre CV…",
     "processingHint": "Cela prend en général moins d'une minute.",
     "done": "Votre profil est prêt !",
@@ -257,6 +251,11 @@
       "queued": "En attente",
       "processing": "Lecture",
       "done": "Prêt"
+    },
+    "errors": {
+      "failed_to_read": "Nous n'avons pas pu lire ce fichier. Essayez un export PDF de votre CV.",
+      "try_later": "Notre IA est très occupée en ce moment. Réessayez dans quelques minutes.",
+      "wrong_type": "Ce type de fichier n'est pas accepté. Déposez un fichier PDF, JPG ou PNG."
     }
   },
   "review": {
@@ -289,13 +288,13 @@
     "conflict": "Votre brouillon a changé ailleurs ou a été approuvé. Rechargez la page avant de réessayer.",
     "approvalFailed": "Brouillon enregistré, mais l’approbation a échoué. Réessayez.",
     "fields": {
-      "basics.name": "Nom complet",
-      "basics.email": "Adresse e-mail",
-      "basics.phone": "Téléphone",
-      "basics.city": "Ville",
-      "basics.country": "Pays",
-      "basics.headline": "Titre professionnel",
-      "basics.summary": "Résumé",
+      "basics_name": "Nom complet",
+      "basics_email": "Adresse e-mail",
+      "basics_phone": "Téléphone",
+      "basics_city": "Ville",
+      "basics_country": "Pays",
+      "basics_headline": "Titre professionnel",
+      "basics_summary": "Résumé",
       "availability": "Disponibilité"
     },
     "domains": {
@@ -336,7 +335,7 @@
       "projects": "Projets",
       "languages": "Langues",
       "certifications": "Certifications",
-      "basics.links": "Liens professionnels"
+      "basics_links": "Liens professionnels"
     },
     "fields": {
       "label": "Libellé du lien",
@@ -389,5 +388,32 @@
       "basic": "Notions"
     },
     "unknown": "Non renseigné"
+  },
+  "privacy": {
+    "pageTitle": "Politique de confidentialité",
+    "title": "Comment nous gérons vos données",
+    "intro": "Nous avons créé cette plateforme pour vous mettre en relation avec les recruteurs du salon de l'emploi de Pristini JE. Nous traitons vos données personnelles (nom, téléphone, e-mail et parcours) : voici exactement ce qu'il se passe quand vous déposez votre CV.",
+    "sections": [
+      {
+        "title": "1. Comment votre CV est lu (extraction par IA)",
+        "text": "Pour vous éviter de longs formulaires, nous envoyons votre CV à un service d'intelligence artificielle, Google Gemini, qui le lit et remplit votre profil. Nous utilisons la version gratuite de Gemini : Google peut donc utiliser votre CV pour entraîner et améliorer ses modèles d'IA."
+      },
+      {
+        "title": "2. Votre fichier CV n'est pas conservé",
+        "text": "Le fichier déposé est supprimé dès que l'IA l'a lu, ou si la lecture échoue. Seul le profil créé à partir de celui-ci est conservé. Quand un recruteur télécharge votre CV, il reçoit un PDF généré à partir de votre profil, jamais votre fichier d'origine."
+      },
+      {
+        "title": "3. Qui peut voir votre profil ?",
+        "text": "Personne ne voit rien avant que vous ayez vérifié et validé votre profil. Une fois validé, toutes les entreprises inscrites au salon peuvent consulter l'intégralité de votre profil, y compris votre téléphone et votre e-mail, afin de vous contacter pour un entretien. En dehors de ces entreprises, le seul service qui reçoit votre CV est Google Gemini, qui le lit. Nous ne vendons jamais vos données."
+      },
+      {
+        "title": "4. Durée de conservation et suppression",
+        "text": "Votre profil est conservé pour ce salon de l'emploi. Vous pouvez supprimer votre profil et votre compte à tout moment depuis « Mon profil »."
+      }
+    ],
+    "contact": {
+      "title": "5. Vos droits et contact",
+      "text": "Conformément à la loi tunisienne sur la protection des données personnelles (loi organique n° 2004-63 du 27 juillet 2004), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Une question ? Écrivez à l'équipe de Pristini Junior Entreprise : {email}."
+    }
   }
 }
