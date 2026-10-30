@@ -1,9 +1,13 @@
 // Who is logged in, and as what. Use this everywhere instead of reading the session yourself.
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 export type Role = "candidate" | "company" | "admin";
 
 export async function getCurrentUser() {
+  // Who is logged in is only known at request time: tells Next.js not to prerender what follows
+  // (Supabase reads the clock to check the session, which Cache Components refuses while prerendering).
+  await connection();
   const supabase = await createClient();
   // getUser() asks Supabase Auth to confirm the session, so a forged cookie is refused.
   const { data, error } = await supabase.auth.getUser();
