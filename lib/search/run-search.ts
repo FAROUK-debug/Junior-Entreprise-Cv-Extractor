@@ -15,7 +15,7 @@ export type SearchRow = {
 };
 
 type ProfileData = {
-  basics?: { name?: string | null; headline?: string | null; city?: string | null };
+  basics?: { name?: string | null; headline?: string | null; city?: string | null; email?: string | null };
   education?: { institution?: string; degree?: string | null }[];
   skills?: { name?: string }[];
   classification?: { domain?: string; seniority?: string };
@@ -40,7 +40,8 @@ export type SearchResponse = {
 
 const CARD_SKILLS = 8;
 
-// What a result card shows. Contact details stay on the profile page.
+// What a result card shows: the email, so a recruiter can contact a candidate from the results (S2-02).
+// The phone stays on the profile page.
 export function toCard(row: SearchRow) {
   const d = row.data ?? {};
   const school = d.education?.[0];
@@ -49,6 +50,7 @@ export function toCard(row: SearchRow) {
     name: d.basics?.name ?? null,
     headline: d.basics?.headline ?? null,
     city: d.basics?.city ?? null,
+    email: d.basics?.email ?? null,
     looking_for: row.looking_for,
     domain: d.classification?.domain ?? null,
     seniority: d.classification?.seniority ?? null,

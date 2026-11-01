@@ -93,7 +93,10 @@ test("a broken key, a wrong answer, no key or a slow Gemini all throw EmbedFaile
     null);
   // A Gemini that never answers: the 3-second timeout (here 50 ms) gives up.
   const never = ((_url: string, init: RequestInit) =>
-    new Promise((_resolve, reject) => init.signal!.addEventListener("abort", () => reject(init.signal!.reason)))
+    new Promise((_resolve, reject) => {
+      const socket = setTimeout(() => {}, 10_000); // a real hung request keeps a socket open
+      init.signal!.addEventListener("abort", () => { clearTimeout(socket); reject(init.signal!.reason); });
+    })
   ) as unknown as typeof fetch;
   await withKey(() => assert.rejects(embedQuery("x", { fetchFn: never, timeoutMs: 50 }), /timed out/));
 });
@@ -122,11 +125,11 @@ test("normal search: the embedding goes to search_profiles as a vector, the rows
   assert.equal(result.degraded, false);
   assert.equal(result.total, 42);
   assert.deepEqual(result.results[0], {
-    public_id: "abc", name: "Sarra Ben Ali", headline: "Computer engineering student", city: "Tunis",
+    public_id: "abc", name: "Sarra Ben Ali", headline: "Computer engineering student", city: "Tunis", email: "sarra.benali@example.com",
     looking_for: "pfe", domain: "software_engineering", seniority: "student",
     school: "École Nationale d'Ingénieurs de Tunis", degree: "Engineering degree", skills: ["Python", "Git", "Teamwork"],
   });
-  assert.ok(!("email" in result.results[0]) && !("phone" in result.results[0]), "no contact details on a card");
+  assert.ok(!("phone" in result.results[0]), "the email is on the card, the phone is not");
 });
 
 test("Gemini fails: the same search runs with words only, and says degraded", async () => {

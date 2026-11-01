@@ -47,7 +47,8 @@ test("a company finds the profile by a word in it, as a card", async () => {
   const card = body.results.find((r: { skills: string[] }) => r.skills.includes(WORD));
   assert.ok(card, "the profile is in the results");
   assert.equal(card.name, "Sarra Ben Ali");
-  assert.equal(card.email, undefined, "no contact details on a card");
+  assert.equal(card.email, example.basics.email, "the email is on the card");
+  assert.equal(card.phone, undefined, "the phone is not");
   assert.ok(body.total >= 1);
 });
 
